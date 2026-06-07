@@ -1,0 +1,1832 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Socialab GovTech — Infraestructura Nacional para la Innovación Pública Territorial</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --blue:#2196F3;
+  --blue-dark:#1565C0;
+  --blue-light:#42A5F5;
+  --blue-pale:rgba(33,150,243,.08);
+  --green:#00C9A7;
+  --green-dim:rgba(0,201,167,.1);
+  --amber:#F59E0B;
+  --amber-dim:rgba(245,158,11,.1);
+  --bg1:#080B12;
+  --bg2:#0D1117;
+  --bg3:#111827;
+  --bg4:#141C2E;
+  --text:#F0F4FF;
+  --muted:#8B9DC3;
+  --border:#1E2D4A;
+  --border-light:rgba(30,45,74,.6);
+  --white:#ffffff;
+  --radius:12px;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg1);color:var(--text);font-family:'Inter',sans-serif;line-height:1.6;overflow-x:hidden}
+
+/* SCROLLBAR */
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-track{background:var(--bg1)}
+::-webkit-scrollbar-thumb{background:var(--border)}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(8,11,18,.85);backdrop-filter:blur(20px);border-bottom:.5px solid var(--border);padding:0 2rem;height:56px;display:flex;align-items:center;justify-content:space-between}
+.nav-logo{display:flex;align-items:center;gap:10px}
+.nav-logo-icon{width:32px;height:32px;background:var(--blue);border-radius:8px;display:flex;align-items:center;justify-content:center}
+.nav-wordmark{font-family:'Inter',sans-serif;font-size:15px;font-weight:700;color:var(--white);letter-spacing:-.3px}
+.nav-wordmark span{color:var(--blue)}
+.nav-links{display:flex;gap:1.5rem;align-items:center}
+.nav-links a{font-size:12px;color:var(--muted);text-decoration:none;letter-spacing:.5px;transition:color .2s}
+.nav-links a:hover{color:var(--text)}
+.nav-cta{background:var(--blue);color:#fff;padding:6px 16px;border-radius:6px;font-size:12px;font-weight:600;text-decoration:none;letter-spacing:.3px;transition:background .2s}
+.nav-cta:hover{background:var(--blue-dark)}
+.nav-badge{display:none}
+
+/* HERO */
+.hero{min-height:100vh;display:flex;align-items:center;padding:80px 2rem 4rem;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;background-image:radial-gradient(circle,rgba(33,150,243,.1) 1px,transparent 1px);background-size:40px 40px;opacity:.4;pointer-events:none}
+.hero::after{content:'';position:absolute;right:-200px;top:-100px;width:700px;height:700px;background:radial-gradient(ellipse,rgba(33,150,243,.06),transparent 65%);pointer-events:none}
+.hero-glow{position:absolute;left:-100px;bottom:-100px;width:500px;height:500px;background:radial-gradient(ellipse,rgba(0,201,167,.04),transparent 65%);pointer-events:none}
+.hero-inner{max-width:1100px;margin:0 auto;width:100%;position:relative;z-index:1}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(33,150,243,.1);color:var(--blue-light);border:.5px solid rgba(33,150,243,.3);border-radius:100px;padding:6px 18px;font-size:11px;letter-spacing:2.5px;text-transform:uppercase;margin-bottom:2rem;font-family:'DM Mono',monospace}
+.hero-badge::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--green);box-shadow:0 0 8px var(--green);flex-shrink:0}
+.hero-title{font-family:'Inter',sans-serif;font-size:clamp(42px,6vw,80px);font-weight:800;line-height:1.0;letter-spacing:-1.5px;margin-bottom:1.5rem;color:var(--white)}
+.hero-title .accent{color:var(--blue)}
+.hero-title .line2{display:block;font-size:clamp(26px,3.5vw,50px);color:var(--muted);font-weight:500;letter-spacing:-0.5px;margin-top:.25rem}
+.hero-sub{font-size:17px;color:var(--muted);max-width:600px;line-height:1.8;margin-bottom:2.5rem;font-weight:300}
+.hero-sub strong{color:var(--text);font-weight:500}
+.hero-actions{display:flex;gap:1rem;flex-wrap:wrap;align-items:center;margin-bottom:3.5rem}
+.btn-primary{background:var(--blue);color:#fff;padding:14px 28px;border-radius:8px;font-size:14px;font-weight:600;text-decoration:none;display:inline-flex;align-items:center;gap:8px;transition:all .2s;letter-spacing:.2px}
+.btn-primary:hover{background:var(--blue-dark);transform:translateY(-1px)}
+.btn-ghost{border:.5px solid var(--border);color:var(--muted);padding:14px 28px;border-radius:8px;font-size:14px;font-weight:500;text-decoration:none;display:inline-flex;align-items:center;gap:8px;transition:all .2s}
+.btn-ghost:hover{border-color:var(--blue);color:var(--text)}
+.hero-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);border:.5px solid var(--border);border-radius:var(--radius);overflow:hidden;max-width:700px}
+.hero-stat{background:var(--bg3);padding:1.25rem 1rem;text-align:center}
+.hero-stat-val{font-family:'Inter',sans-serif;font-size:28px;font-weight:800;color:var(--blue);letter-spacing:-1px;line-height:1;margin-bottom:4px}
+.hero-stat-lbl{font-size:10px;color:var(--muted);letter-spacing:1px;text-transform:uppercase;line-height:1.3}
+
+/* SECTION LAYOUT */
+section{padding:6rem 2rem}
+.container{max-width:1100px;margin:0 auto}
+.sec-eyebrow{font-family:'DM Mono',monospace;font-size:10px;color:var(--blue);letter-spacing:3px;text-transform:uppercase;margin-bottom:.75rem}
+.sec-title{font-family:'Inter',sans-serif;font-size:clamp(28px,4vw,44px);font-weight:800;color:var(--white);line-height:1.15;letter-spacing:-0.5px;margin-bottom:1rem}
+.sec-desc{font-size:16px;color:var(--muted);max-width:640px;line-height:1.8;font-weight:300}
+.sec-header{margin-bottom:3rem}
+
+/* ALTERNATING SECTIONS */
+.sec-alt{background:var(--bg2)}
+
+/* === SECTION: POR QUÉ === */
+.problem-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);border:.5px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:2rem}
+.problem-card{background:var(--bg3);padding:2rem;position:relative}
+.problem-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--border)}
+.problem-card.highlight::before{background:var(--blue)}
+.problem-num{font-family:'DM Mono',monospace;font-size:10px;color:var(--blue);letter-spacing:2px;margin-bottom:.75rem}
+.problem-card h3{font-family:'Inter',sans-serif;font-size:18px;font-weight:700;color:var(--white);margin-bottom:.5rem}
+.problem-card p{font-size:13px;color:var(--muted);line-height:1.7}
+.insight-box{background:var(--bg3);border:.5px solid var(--border);border-left:3px solid var(--green);border-radius:0 var(--radius) var(--radius) 0;padding:1.5rem 2rem;font-size:15px;color:var(--text);line-height:1.7}
+.insight-box strong{color:var(--green)}
+
+/* === SECTION: QUÉ === */
+.what-center{text-align:center;margin-bottom:3rem}
+.what-center .sec-desc{margin:0 auto}
+.pillars{display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:var(--border);border:.5px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:3rem}
+.pillar{background:var(--bg3);padding:1.5rem 1rem;text-align:center;position:relative;transition:background .2s}
+.pillar:hover{background:var(--bg4)}
+.pillar-icon{width:40px;height:40px;border-radius:8px;background:var(--blue-pale);border:.5px solid rgba(33,150,243,.2);display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;transition:all .2s}
+.pillar:hover .pillar-icon{background:rgba(33,150,243,.15)}
+.pillar-icon svg{width:18px;height:18px;stroke:var(--blue)}
+.pillar-num{font-family:'DM Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:2px;margin-bottom:.5rem}
+.pillar-name{font-family:'Inter',sans-serif;font-size:13px;font-weight:700;color:var(--white);margin-bottom:.35rem}
+.pillar-desc{font-size:11px;color:var(--muted);line-height:1.5}
+
+/* === FLOW DIAGRAM === */
+.flow-section{background:var(--bg2)}
+.flow-title{text-align:center;margin-bottom:3rem}
+.flow-chain{display:flex;align-items:stretch;gap:0;overflow-x:auto;padding-bottom:1rem;scrollbar-width:thin}
+.flow-step{flex:1;min-width:110px;background:var(--bg3);border:.5px solid var(--border);padding:1.5rem 1rem;text-align:center;position:relative;transition:all .2s}
+.flow-step:first-child{border-radius:var(--radius) 0 0 var(--radius)}
+.flow-step:last-child{border-radius:0 var(--radius) var(--radius) 0}
+.flow-step::after{content:'→';position:absolute;right:-12px;top:50%;transform:translateY(-50%);font-size:14px;color:var(--blue);z-index:2;background:var(--bg1);padding:2px}
+.flow-step:last-child::after{display:none}
+.flow-step-num{font-family:'DM Mono',monospace;font-size:9px;color:var(--blue);letter-spacing:2px;margin-bottom:.5rem}
+.flow-step-name{font-family:'Inter',sans-serif;font-size:13px;font-weight:700;color:var(--white);margin-bottom:.3rem;line-height:1.2}
+.flow-step-desc{font-size:10px;color:var(--muted);line-height:1.4}
+.flow-step:hover{background:var(--bg4);border-color:rgba(33,150,243,.3)}
+
+/* === ECOSYSTEM DIAGRAM === */
+.ecosystem{position:relative;margin:3rem 0}
+.eco-center{position:relative;z-index:2}
+.eco-hub{background:var(--bg3);border:.5px solid rgba(33,150,243,.4);border-radius:16px;padding:2rem;text-align:center;max-width:260px;margin:0 auto}
+.eco-hub-label{font-family:'DM Mono',monospace;font-size:9px;color:var(--blue);letter-spacing:3px;text-transform:uppercase;margin-bottom:.5rem}
+.eco-hub-name{font-family:'Inter',sans-serif;font-size:22px;font-weight:800;color:var(--white);letter-spacing:-1px}
+.eco-hub-sub{font-size:11px;color:var(--muted);margin-top:.25rem}
+.eco-actors{display:grid;grid-template-columns:repeat(4,1fr);gap:.75rem;margin-top:2rem}
+.eco-actor{background:var(--bg3);border:.5px solid var(--border);border-radius:8px;padding:.875rem .75rem;text-align:center;transition:all .2s;cursor:default}
+.eco-actor:hover{border-color:rgba(33,150,243,.3);background:var(--bg4)}
+.eco-actor-icon{font-size:20px;margin-bottom:.35rem}
+.eco-actor-name{font-size:11px;font-weight:600;color:var(--text);margin-bottom:2px}
+.eco-actor-desc{font-size:10px;color:var(--muted);line-height:1.3}
+
+/* === COMO === */
+.how-grid{display:grid;grid-template-columns:1fr 1fr;gap:2rem}
+.how-left{}
+.how-right{}
+.how-steps{display:flex;flex-direction:column;gap:.75rem}
+.how-step{display:flex;gap:1rem;align-items:flex-start;background:var(--bg3);border:.5px solid var(--border);border-radius:8px;padding:1.25rem;transition:all .2s}
+.how-step:hover{border-color:rgba(33,150,243,.3)}
+.how-step-num{width:32px;height:32px;border-radius:6px;background:var(--blue-pale);border:.5px solid rgba(33,150,243,.2);display:flex;align-items:center;justify-content:center;font-family:'DM Mono',monospace;font-size:11px;color:var(--blue);flex-shrink:0}
+.how-step-content h4{font-family:'Inter',sans-serif;font-size:14px;font-weight:700;color:var(--white);margin-bottom:.3rem}
+.how-step-content p{font-size:12px;color:var(--muted);line-height:1.6}
+.model-box{background:var(--bg3);border:.5px solid var(--border);border-radius:var(--radius);padding:2rem;height:100%}
+.model-box h3{font-family:'Inter',sans-serif;font-size:20px;font-weight:700;color:var(--white);margin-bottom:1.5rem;padding-bottom:1rem;border-bottom:.5px solid var(--border)}
+.model-lines{display:flex;flex-direction:column;gap:.75rem}
+.model-line{display:flex;align-items:flex-start;gap:.75rem;padding:.875rem;background:var(--bg2);border-radius:8px;border:.5px solid var(--border-light)}
+.model-line-icon{width:28px;height:28px;border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:14px}
+.ml-blue{background:rgba(33,150,243,.1)}
+.ml-green{background:rgba(0,201,167,.1)}
+.ml-amber{background:rgba(245,158,11,.1)}
+.model-line-content{}
+.model-line-content strong{font-size:12px;color:var(--text);font-weight:600;display:block;margin-bottom:2px}
+.model-line-content span{font-size:11px;color:var(--muted)}
+
+/* === CUANDO/ROADMAP === */
+.roadmap{position:relative}
+.roadmap-line{position:absolute;left:32px;top:0;bottom:0;width:1px;background:var(--border)}
+.roadmap-items{display:flex;flex-direction:column;gap:1.5rem;padding-left:0}
+.roadmap-item{display:flex;gap:1.5rem;align-items:flex-start;position:relative}
+.roadmap-dot{width:64px;flex-shrink:0;display:flex;flex-direction:column;align-items:center;gap:4px;z-index:1}
+.roadmap-dot-circle{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'DM Mono',monospace;font-size:10px;font-weight:500;border:.5px solid}
+.rd-active{background:rgba(33,150,243,.15);border-color:var(--blue);color:var(--blue)}
+.rd-future{background:var(--bg3);border-color:var(--border);color:var(--muted)}
+.rd-far{background:var(--bg2);border-color:var(--border-light);color:var(--border)}
+.roadmap-dot-label{font-family:'DM Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:1px;text-align:center}
+.roadmap-content{background:var(--bg3);border:.5px solid var(--border);border-radius:var(--radius);padding:1.5rem;flex:1}
+.roadmap-content.is-active{border-color:rgba(33,150,243,.3)}
+.roadmap-phase{font-family:'DM Mono',monospace;font-size:9px;color:var(--blue);letter-spacing:2px;text-transform:uppercase;margin-bottom:.5rem}
+.roadmap-content h3{font-family:'Inter',sans-serif;font-size:17px;font-weight:700;color:var(--white);margin-bottom:.75rem}
+.roadmap-tags{display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:.75rem}
+.rtag{display:inline-flex;align-items:center;gap:5px;background:var(--bg2);border:.5px solid var(--border-light);border-radius:100px;padding:3px 10px;font-size:11px;color:var(--muted)}
+.rtag::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--blue);opacity:.6}
+.roadmap-kpi{font-size:12px;color:var(--muted);border-top:.5px solid var(--border);padding-top:.75rem;margin-top:.75rem;display:flex;gap:1.5rem;flex-wrap:wrap}
+.roadmap-kpi span{color:var(--blue-light)}
+
+/* === DONDE === */
+.territories{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-bottom:2rem}
+.territory{background:var(--bg3);border:.5px solid var(--border);border-radius:var(--radius);padding:2rem;position:relative;overflow:hidden}
+.territory::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
+.territory.val::before{background:linear-gradient(90deg,var(--blue),var(--blue-light))}
+.territory.ant::before{background:linear-gradient(90deg,var(--green),var(--blue-light))}
+.territory-badge{display:inline-block;background:var(--blue-pale);border:.5px solid rgba(33,150,243,.2);border-radius:100px;padding:3px 12px;font-family:'DM Mono',monospace;font-size:9px;color:var(--blue);letter-spacing:2px;text-transform:uppercase;margin-bottom:1rem}
+.territory h3{font-family:'Inter',sans-serif;font-size:24px;font-weight:800;color:var(--white);letter-spacing:-1px;margin-bottom:.5rem}
+.territory-sub{font-size:12px;color:var(--muted);margin-bottom:1.25rem}
+.territory-tags{display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:1.5rem}
+.territory-tag{background:var(--bg2);border:.5px solid var(--border-light);border-radius:6px;padding:4px 10px;font-size:11px;color:var(--muted)}
+.territory-projects{display:flex;flex-direction:column;gap:.5rem}
+.territory-project{background:var(--bg2);border:.5px solid var(--border-light);border-radius:6px;padding:.75rem 1rem;font-size:12px;color:var(--text);display:flex;align-items:center;gap:.5rem}
+.territory-project::before{content:'→';color:var(--blue);font-size:12px;flex-shrink:0}
+.latam-banner{background:var(--bg3);border:.5px solid var(--border);border-radius:var(--radius);padding:1.5rem 2rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap}
+.latam-banner-left h3{font-family:'Inter',sans-serif;font-size:18px;font-weight:700;color:var(--white);margin-bottom:.25rem}
+.latam-banner-left p{font-size:13px;color:var(--muted)}
+.latam-countries{display:flex;gap:.75rem;flex-wrap:wrap}
+.latam-country{background:var(--bg2);border:.5px solid var(--border-light);border-radius:6px;padding:5px 12px;font-size:12px;color:var(--muted);font-family:'DM Mono',monospace}
+
+/* === QUIÉNES === */
+.actors-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
+.actor-card{background:var(--bg3);border:.5px solid var(--border);border-radius:var(--radius);padding:1.5rem;transition:all .2s}
+.actor-card:hover{border-color:rgba(33,150,243,.3);background:var(--bg4)}
+.actor-icon{width:40px;height:40px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:1rem}
+.actor-card h3{font-family:'Inter',sans-serif;font-size:15px;font-weight:700;color:var(--white);margin-bottom:.5rem}
+.actor-card p{font-size:12px;color:var(--muted);line-height:1.6}
+.actor-role{display:inline-block;margin-top:.75rem;font-family:'DM Mono',monospace;font-size:9px;color:var(--blue);letter-spacing:1.5px;text-transform:uppercase}
+
+/* === FINANCIAMIENTO === */
+.finance-grid{display:grid;grid-template-columns:1fr 1.2fr;gap:2rem}
+.finance-table{background:var(--bg3);border:.5px solid var(--border);border-radius:var(--radius);overflow:hidden}
+.finance-table-header{background:var(--bg2);padding:1rem 1.5rem;border-bottom:.5px solid var(--border);font-family:'Inter',sans-serif;font-size:15px;font-weight:700;color:var(--white)}
+.finance-rows{}
+.finance-row{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:1rem;padding:1rem 1.5rem;border-bottom:.5px solid var(--border-light);transition:background .15s}
+.finance-row:last-child{border-bottom:none}
+.finance-row:hover{background:var(--bg2)}
+.finance-row-num{font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);width:24px}
+.finance-row-name{font-size:13px;color:var(--text)}
+.finance-row-name small{display:block;font-size:11px;color:var(--muted);margin-top:1px}
+.finance-row-amount{font-family:'Inter',sans-serif;font-size:14px;font-weight:700;color:var(--blue);white-space:nowrap}
+.finance-phases{display:flex;flex-direction:column;gap:1rem}
+.finance-phase{background:var(--bg3);border:.5px solid var(--border);border-radius:var(--radius);padding:1.5rem}
+.fp-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;padding-bottom:1rem;border-bottom:.5px solid var(--border)}
+.fp-label{font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:2px}
+.fp-amount{font-family:'Inter',sans-serif;font-size:20px;font-weight:800;color:var(--white)}
+.fp-amount small{font-size:12px;color:var(--muted);font-weight:400;font-family:'Inter',sans-serif}
+.fp-bars{display:flex;flex-direction:column;gap:.5rem}
+.fp-bar-row{display:flex;align-items:center;gap:.75rem}
+.fp-bar-label{font-size:11px;color:var(--muted);width:120px;flex-shrink:0}
+.fp-bar-track{flex:1;height:6px;background:var(--bg2);border-radius:3px;overflow:hidden}
+.fp-bar-fill{height:100%;border-radius:3px;transition:width .5s ease}
+.fp-bar-pct{font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);width:30px;text-align:right}
+
+/* === KPIs === */
+.kpi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-bottom:2rem}
+.kpi-card{background:var(--bg3);border:.5px solid var(--border);border-radius:var(--radius);padding:1.5rem;text-align:center;transition:all .2s}
+.kpi-card:hover{border-color:rgba(33,150,243,.3)}
+.kpi-val{font-family:'Inter',sans-serif;font-size:36px;font-weight:800;color:var(--blue);letter-spacing:-2px;line-height:1;margin-bottom:.35rem}
+.kpi-val.green{color:var(--green)}
+.kpi-val.amber{color:var(--amber)}
+.kpi-name{font-size:12px;color:var(--text);font-weight:600;margin-bottom:.25rem}
+.kpi-desc{font-size:11px;color:var(--muted);line-height:1.4}
+.kpi-horizon{font-family:'DM Mono',monospace;font-size:9px;color:var(--border);letter-spacing:1.5px;text-transform:uppercase;margin-top:.5rem}
+
+/* === TABS === */
+.tabs-section{background:var(--bg2);padding:4rem 2rem}
+.tabs-container{max-width:1100px;margin:0 auto}
+.tab-header{display:flex;gap:.5rem;margin-bottom:2rem;border-bottom:.5px solid var(--border);padding-bottom:1rem;flex-wrap:wrap}
+.tab-btn{padding:8px 20px;border-radius:6px;border:.5px solid transparent;background:none;color:var(--muted);font-size:13px;font-weight:500;cursor:pointer;transition:all .2s;font-family:'Inter',sans-serif;letter-spacing:.2px}
+.tab-btn.active{background:var(--blue);color:#fff;border-color:var(--blue)}
+.tab-btn:hover:not(.active){border-color:var(--border);color:var(--text)}
+.tab-content{display:none}
+.tab-content.active{display:block}
+
+/* DOCUMENT DISPLAY */
+.doc-display{background:var(--bg3);border:.5px solid var(--border);border-radius:var(--radius);overflow:hidden}
+.doc-toolbar{background:var(--bg2);padding:.875rem 1.5rem;border-bottom:.5px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.doc-toolbar-left{display:flex;align-items:center;gap:.75rem}
+.doc-dots{display:flex;gap:5px}
+.doc-dot{width:10px;height:10px;border-radius:50%}
+.d1{background:#FF5F56}.d2{background:#FFBD2E}.d3{background:#27C93F}
+.doc-title{font-size:12px;color:var(--muted);font-family:'DM Mono',monospace}
+.doc-body{padding:2.5rem;max-height:600px;overflow-y:auto;font-size:13px;color:var(--muted);line-height:1.8}
+.doc-body h1{font-family:'Inter',sans-serif;font-size:28px;font-weight:800;color:var(--white);letter-spacing:-1px;margin-bottom:.5rem}
+.doc-body h2{font-family:'Inter',sans-serif;font-size:20px;font-weight:700;color:var(--white);margin-top:2rem;margin-bottom:.75rem;padding-top:1.5rem;border-top:.5px solid var(--border)}
+.doc-body h3{font-size:15px;font-weight:600;color:var(--text);margin-top:1.25rem;margin-bottom:.5rem}
+.doc-body p{margin-bottom:.75rem;color:var(--muted)}
+.doc-body strong{color:var(--text)}
+.doc-body .doc-tag{display:inline-block;background:var(--blue-pale);border:.5px solid rgba(33,150,243,.2);border-radius:4px;padding:2px 8px;font-family:'DM Mono',monospace;font-size:10px;color:var(--blue);margin-bottom:1rem;letter-spacing:1px}
+.doc-body ul{padding-left:1.25rem;margin-bottom:.75rem}
+.doc-body ul li{color:var(--muted);margin-bottom:.35rem;font-size:13px}
+.doc-body .highlight-box{background:var(--bg2);border:.5px solid var(--border);border-left:3px solid var(--blue);border-radius:0 8px 8px 0;padding:1rem 1.25rem;margin:1rem 0}
+.doc-body .highlight-box p{margin:0;color:var(--text);font-size:13px}
+
+/* === CTA FINAL === */
+.cta-section{background:var(--bg1);padding:6rem 2rem;text-align:center;position:relative;overflow:hidden}
+.cta-section::before{content:'';position:absolute;inset:0;background-image:radial-gradient(circle,rgba(33,150,243,.08) 1px,transparent 1px);background-size:40px 40px;opacity:.3;pointer-events:none}
+.cta-section::after{content:'';position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:600px;height:600px;background:radial-gradient(ellipse,rgba(33,150,243,.06),transparent 65%);pointer-events:none}
+.cta-inner{position:relative;z-index:1;max-width:700px;margin:0 auto}
+.cta-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(0,201,167,.1);color:var(--green);border:.5px solid rgba(0,201,167,.3);border-radius:100px;padding:6px 18px;font-size:11px;letter-spacing:2px;text-transform:uppercase;margin-bottom:2rem;font-family:'DM Mono',monospace}
+.cta-title{font-family:'Inter',sans-serif;font-size:clamp(32px,5vw,56px);font-weight:800;color:var(--white);letter-spacing:-1px;margin-bottom:1rem;line-height:1.1}
+.cta-desc{font-size:16px;color:var(--muted);margin-bottom:2.5rem;line-height:1.7;font-weight:300}
+.cta-actions{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
+.footer-strip{background:var(--bg2);border-top:.5px solid var(--border);padding:1.5rem 2rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap}
+.footer-left{font-size:12px;color:var(--muted)}
+.footer-left strong{color:var(--text)}
+.footer-right{font-family:'DM Mono',monospace;font-size:10px;color:var(--border);letter-spacing:2px}
+
+/* ANIMATIONS */
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+@keyframes pulse{0%,100%{opacity:.6}50%{opacity:1}}
+.hero-badge{animation:fadeUp .6s ease both}
+.hero-title{animation:fadeUp .6s .1s ease both}
+.hero-sub{animation:fadeUp .6s .2s ease both}
+.hero-actions{animation:fadeUp .6s .3s ease both}
+.hero-stats{animation:fadeUp .6s .4s ease both}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+  .hero-stats{grid-template-columns:repeat(2,1fr)}
+  .problem-grid,.how-grid,.finance-grid,.territories,.actors-grid,.kpi-grid{grid-template-columns:1fr}
+  .pillars{grid-template-columns:repeat(2,1fr)}
+  .eco-actors{grid-template-columns:repeat(2,1fr)}
+  .nav-links{display:none}
+  .hero-title{letter-spacing:-1px}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">
+    <div class="nav-logo-icon">
+      <svg width="18" height="18" viewBox="0 0 32 32" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round">
+        <circle cx="16" cy="16" r="10" stroke-width="2"/>
+        <path d="M16 6 C16 6, 24 11, 24 16 C24 21, 16 26, 16 26 C16 26, 8 21, 8 16 C8 11, 16 6, 16 6Z" fill="rgba(255,255,255,.15)"/>
+        <line x1="6" y1="16" x2="26" y2="16" stroke-width="1.5"/>
+      </svg>
+    </div>
+    <div class="nav-wordmark"><span>Socialab</span> GovTech</div>
+  </div>
+  <div class="nav-links">
+    <a href="#por-que">Por qué</a>
+    <a href="#que">Qué</a>
+    <a href="#como">Cómo</a>
+    <a href="#cuando">Cuándo</a>
+    <a href="#donde">Dónde</a>
+    <a href="#quienes">Quiénes</a>
+    <a href="#documentos">Documentos</a>
+    <a href="#lanzamiento">Lanzamiento</a>
+    <a href="#contacto" class="nav-cta">Contacto</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-badge">
+      <span></span>
+      Infraestructura Nacional · Innovación Pública · Chile → LATAM
+    </div>
+    <h1 class="hero-title">
+      Socialab <span class="accent">GovTech</span>
+      <span class="line2">Los desafíos públicos son el mercado<br>más grande que nadie ha estructurado aún.</span>
+    </h1>
+    <p class="hero-sub">
+      Una <strong>infraestructura nacional</strong> que convierte los desafíos del Estado en oportunidades para el ecosistema emprendedor — con metodología, evidencia y mecanismos de escalamiento que funcionan más allá de un gobierno o un programa.
+    </p>
+    <div class="hero-actions">
+      <a href="#que" class="btn-primary">
+        <svg width="14" height="14" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="4,16 28,16"/><polyline points="18,8 28,16 18,24"/></svg>
+        Ver el modelo
+      </a>
+      <a href="#documentos" class="btn-ghost">
+        <svg width="14" height="14" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 4h14l6 6v18H6V4z"/><polyline points="20,4 20,10 26,10"/></svg>
+        Documentos estratégicos
+      </a>
+    </div>
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <div class="hero-stat-val">250+</div>
+        <div class="hero-stat-lbl">Soluciones implementadas<br>al año 10</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-val">USD 200M</div>
+        <div class="hero-stat-lbl">Valor generado<br>al sector público</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-val">3M+</div>
+        <div class="hero-stat-lbl">Ciudadanos<br>beneficiados</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-val">LATAM</div>
+        <div class="hero-stat-lbl">Modelo exportable<br>a la región</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- POR QUÉ -->
+<section id="por-que" class="sec-alt">
+  <div class="container">
+    <div class="sec-header">
+      <div class="sec-eyebrow">01 · Por qué</div>
+      <h2 class="sec-title">El mercado que no existe<br>todavía.</h2>
+      <p class="sec-desc">Chile gasta el 26% de su PIB en servicios públicos. Hay miles de emprendedores con soluciones para problemas del Estado. Y sin embargo, casi no se encuentran. El problema no es la falta de soluciones. Es la ausencia de infraestructura de mercado.</p>
+    </div>
+    <div class="problem-grid">
+      <div class="problem-card highlight">
+        <div class="problem-num">BRECHA 01</div>
+        <h3>Articulación</h3>
+        <p>Las startups GovTech no tienen acceso sistemático a los organismos públicos que podrían comprar su solución. El ecosistema existe, pero no hay intermediación eficiente.</p>
+      </div>
+      <div class="problem-card">
+        <div class="problem-num">BRECHA 02</div>
+        <h3>Validación circular</h3>
+        <p>El Estado exige evidencia para comprar. Los emprendedores necesitan pilotos para generar evidencia. Los pilotos requieren acceso al Estado. El círculo vicioso bloquea la innovación.</p>
+      </div>
+      <div class="problem-card">
+        <div class="problem-num">BRECHA 03</div>
+        <h3>Escalamiento nulo</h3>
+        <p>Una solución que funciona en un municipio no tiene ningún mecanismo sistemático para replicarse. Cada organismo reinventa la rueda con enormes costos de tiempo y recursos.</p>
+      </div>
+      <div class="problem-card">
+        <div class="problem-num">BRECHA 04</div>
+        <h3>Concentración territorial</h3>
+        <p>La innovación pública está hiperconcentrada en Santiago. Los Gobiernos Regionales tienen presupuesto y mandato de innovar, pero carecen de los instrumentos para hacerlo.</p>
+      </div>
+    </div>
+    <div class="insight-box">
+      La mayoría de los programas públicos financian proyectos. <strong>Socialab GovTech construye un mercado nacional de soluciones para desafíos públicos.</strong> La diferencia entre un programa y un mercado es la diferencia entre un puente inaugurado y un puente usado durante cincuenta años.
+    </div>
+  </div>
+</section>
+
+<!-- QUÉ -->
+<section id="que">
+  <div class="container">
+    <div class="sec-header what-center" style="text-align:center">
+      <div class="sec-eyebrow">02 · Qué</div>
+      <h2 class="sec-title">Una infraestructura, cinco componentes.</h2>
+      <p class="sec-desc">No es una incubadora. No es una consultora. No es un programa temporal. Es el sistema nervioso del mercado GovTech chileno.</p>
+    </div>
+    <div class="pillars">
+      <div class="pillar">
+        <div class="pillar-icon">
+          <svg viewBox="0 0 32 32" fill="none" stroke-width="1.8" stroke-linecap="round"><circle cx="16" cy="16" r="10"/><path d="M12 16 h8 M16 12 v8"/></svg>
+        </div>
+        <div class="pillar-num">C · 01</div>
+        <div class="pillar-name">Observatorio de Desafíos</div>
+        <div class="pillar-desc">Captura, clasifica y prioriza desafíos públicos desde múltiples fuentes con IA</div>
+      </div>
+      <div class="pillar">
+        <div class="pillar-icon">
+          <svg viewBox="0 0 32 32" fill="none" stroke-width="1.8" stroke-linecap="round"><rect x="4" y="6" width="24" height="20" rx="2"/><line x1="4" y1="12" x2="28" y2="12"/><circle cx="10" cy="19" r="2"/></svg>
+        </div>
+        <div class="pillar-num">C · 02</div>
+        <div class="pillar-name">Plataforma de Innovación Abierta</div>
+        <div class="pillar-desc">Motor operativo: desafíos, convocatorias, matching y gestión de pilotos</div>
+      </div>
+      <div class="pillar">
+        <div class="pillar-icon">
+          <svg viewBox="0 0 32 32" fill="none" stroke-width="1.8" stroke-linecap="round"><path d="M6 20 l6-8 6 4 6-10"/><circle cx="6" cy="20" r="2" fill="#2196F3" stroke="none"/></svg>
+        </div>
+        <div class="pillar-num">C · 03</div>
+        <div class="pillar-name">Laboratorio de Pilotaje Territorial</div>
+        <div class="pillar-desc">Diseño, ejecución y documentación de pilotos con metodología rigurosa de 90-120 días</div>
+      </div>
+      <div class="pillar">
+        <div class="pillar-icon">
+          <svg viewBox="0 0 32 32" fill="none" stroke-width="1.8" stroke-linecap="round"><rect x="4" y="10" width="10" height="12" rx="2"/><rect x="18" y="6" width="10" height="16" rx="2"/><line x1="9" y1="22" x2="9" y2="28"/><line x1="23" y1="22" x2="23" y2="28"/><line x1="4" y1="28" x2="28" y2="28"/></svg>
+        </div>
+        <div class="pillar-num">C · 04</div>
+        <div class="pillar-name">Marketplace GovTech</div>
+        <div class="pillar-desc">Mercado de soluciones certificadas por evidencia para organismos públicos de todo el país</div>
+      </div>
+      <div class="pillar">
+        <div class="pillar-icon">
+          <svg viewBox="0 0 32 32" fill="none" stroke-width="1.8" stroke-linecap="round"><circle cx="8" cy="8" r="3"/><circle cx="24" cy="8" r="3"/><circle cx="16" cy="24" r="3"/><line x1="11" y1="8" x2="21" y2="8"/><line x1="8" y1="11" x2="14" y2="21"/><line x1="24" y1="11" x2="18" y2="21"/></svg>
+        </div>
+        <div class="pillar-num">C · 05</div>
+        <div class="pillar-name">Programa de Escalamiento Nacional</div>
+        <div class="pillar-desc">Franquicia metodológica que lleva soluciones validadas a regiones y países</div>
+      </div>
+    </div>
+
+    <!-- ECOSYSTEM -->
+    <div class="sec-eyebrow" style="text-align:center;margin-bottom:1rem">Ecosistema de actores</div>
+    <div class="eco-hub">
+      <div class="eco-hub-label">Articulador Central</div>
+      <div class="eco-hub-name">Socialab GovTech</div>
+      <div class="eco-hub-sub">Infraestructura Nacional · Plataforma · Metodología</div>
+    </div>
+    <div class="eco-actors">
+      <div class="eco-actor">
+        <div class="eco-actor-icon">🏛️</div>
+        <div class="eco-actor-name">Gobiernos Regionales</div>
+        <div class="eco-actor-desc">Mandato territorial y presupuesto de innovación</div>
+      </div>
+      <div class="eco-actor">
+        <div class="eco-actor-icon">🏙️</div>
+        <div class="eco-actor-name">Municipalidades</div>
+        <div class="eco-actor-desc">Primera línea de servicios públicos</div>
+      </div>
+      <div class="eco-actor">
+        <div class="eco-actor-icon">🚀</div>
+        <div class="eco-actor-name">Startups & Scaleups</div>
+        <div class="eco-actor-desc">Soluciones GovTech validadas y escalables</div>
+      </div>
+      <div class="eco-actor">
+        <div class="eco-actor-icon">🏗️</div>
+        <div class="eco-actor-name">Corfo</div>
+        <div class="eco-actor-desc">Financiamiento e instrumentos de innovación</div>
+      </div>
+      <div class="eco-actor">
+        <div class="eco-actor-icon">🎓</div>
+        <div class="eco-actor-name">Universidades</div>
+        <div class="eco-actor-desc">Investigación, evidencia y transferencia tecnológica</div>
+      </div>
+      <div class="eco-actor">
+        <div class="eco-actor-icon">🏢</div>
+        <div class="eco-actor-name">Empresas Privadas</div>
+        <div class="eco-actor-desc">Patrocinio, co-innovación e inversión territorial</div>
+      </div>
+      <div class="eco-actor">
+        <div class="eco-actor-icon">🌐</div>
+        <div class="eco-actor-name">Multilaterales</div>
+        <div class="eco-actor-desc">BID, CAF, Banco Mundial, PNUD, cooperación</div>
+      </div>
+      <div class="eco-actor">
+        <div class="eco-actor-icon">👥</div>
+        <div class="eco-actor-name">Ciudadanía</div>
+        <div class="eco-actor-desc">Origen de desafíos y destinatario final del impacto</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FLUJO / TESIS -->
+<section class="flow-section">
+  <div class="container">
+    <div class="flow-title">
+      <div class="sec-eyebrow">Tesis estratégica</div>
+      <h2 class="sec-title">De desafío a exportación.</h2>
+      <p class="sec-desc" style="margin:0 auto;text-align:center">Un ciclo continuo de nueve etapas que convierte problemas públicos en soluciones escalables y exportables a toda Latinoamérica.</p>
+    </div>
+    <div class="flow-chain">
+      <div class="flow-step">
+        <div class="flow-step-num">01</div>
+        <div class="flow-step-name">Desafío</div>
+        <div class="flow-step-desc">Captura desde ciudadanos, municipios y organismos públicos</div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-step-num">02</div>
+        <div class="flow-step-name">Solución</div>
+        <div class="flow-step-desc">Matching entre desafío y soluciones existentes en el ecosistema</div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-step-num">03</div>
+        <div class="flow-step-name">Piloto</div>
+        <div class="flow-step-desc">Ejecución en contexto real con contraparte institucional</div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-step-num">04</div>
+        <div class="flow-step-name">Validación</div>
+        <div class="flow-step-desc">Evaluación metodológica rigurosa de resultados</div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-step-num">05</div>
+        <div class="flow-step-name">Evidencia</div>
+        <div class="flow-step-desc">Dossier público verificable disponible para todos</div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-step-num">06</div>
+        <div class="flow-step-name">Marketplace</div>
+        <div class="flow-step-desc">Certificación y disponibilidad en catálogo nacional</div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-step-num">07</div>
+        <div class="flow-step-name">Escalamiento</div>
+        <div class="flow-step-desc">Replicación en múltiples territorios y organismos</div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-step-num">08</div>
+        <div class="flow-step-name">Replicabilidad</div>
+        <div class="flow-step-desc">Política pública o compra estándar a nivel nacional</div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-step-num">09</div>
+        <div class="flow-step-name">Exportación LATAM</div>
+        <div class="flow-step-desc">Modelo chileno disponible para el resto de la región</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CÓMO -->
+<section id="como">
+  <div class="container">
+    <div class="sec-header">
+      <div class="sec-eyebrow">03 · Cómo</div>
+      <h2 class="sec-title">Modelo operativo y<br>modelo de negocio.</h2>
+    </div>
+    <div class="how-grid">
+      <div class="how-left">
+        <div style="margin-bottom:1rem;font-family:'Inter',sans-serif;font-size:15px;font-weight:700;color:var(--text)">Ciclo de operación</div>
+        <div class="how-steps">
+          <div class="how-step">
+            <div class="how-step-num">1</div>
+            <div class="how-step-content">
+              <h4>Captura y priorización de desafíos</h4>
+              <p>Sistema multi-canal con IA para clasificar y priorizar desafíos públicos desde ciudadanos, municipios, servicios y gobiernos regionales.</p>
+            </div>
+          </div>
+          <div class="how-step">
+            <div class="how-step-num">2</div>
+            <div class="how-step-content">
+              <h4>Mapeo de soluciones existentes</h4>
+              <p>Antes de crear, identificamos. El ecosistema local y LATAM tiene soluciones que el Estado no conoce. Las encontramos primero.</p>
+            </div>
+          </div>
+          <div class="how-step">
+            <div class="how-step-num">3</div>
+            <div class="how-step-content">
+              <h4>Matching asistido por IA</h4>
+              <p>Algoritmos de similitud semántica + evaluación humana experta conectan desafíos con las mejores soluciones disponibles.</p>
+            </div>
+          </div>
+          <div class="how-step">
+            <div class="how-step-num">4</div>
+            <div class="how-step-content">
+              <h4>Piloto de 90-120 días</h4>
+              <p>Diseño riguroso, ejecución acompañada, métricas predefinidas y dossier de evidencia público al finalizar. Sin humo, con datos.</p>
+            </div>
+          </div>
+          <div class="how-step">
+            <div class="how-step-num">5</div>
+            <div class="how-step-content">
+              <h4>Certificación y escalamiento</h4>
+              <p>Las soluciones con evidencia sólida entran al Marketplace y se activa el proceso de replicación territorial y nacional.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="how-right">
+        <div class="model-box">
+          <h3>Cinco líneas de negocio</h3>
+          <div class="model-lines">
+            <div class="model-line">
+              <div class="model-line-icon ml-blue">🏛️</div>
+              <div class="model-line-content">
+                <strong>Contratos Regionales</strong>
+                <span>USD 400-600K / región / año · 2 regiones en año 1 → 14 en año 10</span>
+              </div>
+            </div>
+            <div class="model-line">
+              <div class="model-line-icon ml-blue">⚙️</div>
+              <div class="model-line-content">
+                <strong>Programa Corfo</strong>
+                <span>Instrumento co-diseñado · Fondo infraestructura + Fondo pilotos GovTech</span>
+              </div>
+            </div>
+            <div class="model-line">
+              <div class="model-line-icon ml-amber">🏢</div>
+              <div class="model-line-content">
+                <strong>Patrocinios Corporativos</strong>
+                <span>USD 30-300K / empresa · Acceso + Inteligencia + Posicionamiento</span>
+              </div>
+            </div>
+            <div class="model-line">
+              <div class="model-line-icon ml-green">🛒</div>
+              <div class="model-line-content">
+                <strong>Marketplace GovTech</strong>
+                <span>Membresías + Comisiones (4-6%) + Certificación · Motor de largo plazo</span>
+              </div>
+            </div>
+            <div class="model-line">
+              <div class="model-line-icon ml-blue">📊</div>
+              <div class="model-line-content">
+                <strong>Servicios Especializados</strong>
+                <span>Formación, informes de inteligencia, asesoría multilateral, licenciamiento LATAM</span>
+              </div>
+            </div>
+          </div>
+          <div style="margin-top:1.25rem;padding-top:1rem;border-top:.5px solid var(--border)">
+            <div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:2px;margin-bottom:.5rem">REGLA DE ORO</div>
+            <div style="font-size:12px;color:var(--text);line-height:1.6">Ninguna fuente individual supera el <strong style="color:var(--blue)">30%</strong> del presupuesto total. La independencia no se declama, se diseña.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FINANCE SECTION -->
+    <div style="margin-top:3rem">
+      <div class="sec-eyebrow" style="margin-bottom:1rem">Proyección financiera</div>
+      <div class="finance-grid">
+        <div class="finance-table">
+          <div class="finance-table-header">Ingresos por línea · Año 5</div>
+          <div class="finance-rows">
+            <div class="finance-row">
+              <div class="finance-row-num">01</div>
+              <div class="finance-row-name">Contratos Regionales (7 regiones)<small>Principal fuente estructural</small></div>
+              <div class="finance-row-amount">USD 3.1M</div>
+            </div>
+            <div class="finance-row">
+              <div class="finance-row-num">02</div>
+              <div class="finance-row-name">Patrocinios Corporativos<small>20-25 empresas nacionales</small></div>
+              <div class="finance-row-amount">USD 1.0M</div>
+            </div>
+            <div class="finance-row">
+              <div class="finance-row-num">03</div>
+              <div class="finance-row-name">Marketplace GovTech<small>Membresías + comisiones + certificación</small></div>
+              <div class="finance-row-amount">USD 1.0M</div>
+            </div>
+            <div class="finance-row">
+              <div class="finance-row-num">04</div>
+              <div class="finance-row-name">Corfo + Multilaterales<small>Instrumento ecosistema + cooperación</small></div>
+              <div class="finance-row-amount">USD 0.7M</div>
+            </div>
+            <div class="finance-row">
+              <div class="finance-row-num">05</div>
+              <div class="finance-row-name">Servicios Especializados<small>Formación, informes, asesoría</small></div>
+              <div class="finance-row-amount">USD 0.7M</div>
+            </div>
+          </div>
+        </div>
+        <div class="finance-phases">
+          <div class="finance-phase">
+            <div class="fp-header">
+              <div class="fp-label">AÑO 1 · Fundación</div>
+              <div class="fp-amount">USD 1.3M <small>total</small></div>
+            </div>
+            <div class="fp-bars">
+              <div class="fp-bar-row">
+                <div class="fp-bar-label">Contratos regionales</div>
+                <div class="fp-bar-track"><div class="fp-bar-fill" style="width:70%;background:var(--blue)"></div></div>
+                <div class="fp-bar-pct">70%</div>
+              </div>
+              <div class="fp-bar-row">
+                <div class="fp-bar-label">Corfo</div>
+                <div class="fp-bar-track"><div class="fp-bar-fill" style="width:22%;background:var(--muted)"></div></div>
+                <div class="fp-bar-pct">22%</div>
+              </div>
+              <div class="fp-bar-row">
+                <div class="fp-bar-label">Patrocinios</div>
+                <div class="fp-bar-track"><div class="fp-bar-fill" style="width:8%;background:var(--amber)"></div></div>
+                <div class="fp-bar-pct">8%</div>
+              </div>
+            </div>
+          </div>
+          <div class="finance-phase">
+            <div class="fp-header">
+              <div class="fp-label">AÑO 5 · Crecimiento</div>
+              <div class="fp-amount">USD 6.5M <small>total</small></div>
+            </div>
+            <div class="fp-bars">
+              <div class="fp-bar-row">
+                <div class="fp-bar-label">Contratos regionales</div>
+                <div class="fp-bar-track"><div class="fp-bar-fill" style="width:46%;background:var(--blue)"></div></div>
+                <div class="fp-bar-pct">46%</div>
+              </div>
+              <div class="fp-bar-row">
+                <div class="fp-bar-label">Marketplace</div>
+                <div class="fp-bar-track"><div class="fp-bar-fill" style="width:17%;background:var(--green)"></div></div>
+                <div class="fp-bar-pct">17%</div>
+              </div>
+              <div class="fp-bar-row">
+                <div class="fp-bar-label">Patrocinios</div>
+                <div class="fp-bar-track"><div class="fp-bar-fill" style="width:15%;background:var(--amber)"></div></div>
+                <div class="fp-bar-pct">15%</div>
+              </div>
+              <div class="fp-bar-row">
+                <div class="fp-bar-label">Servicios + Otros</div>
+                <div class="fp-bar-track"><div class="fp-bar-fill" style="width:22%;background:var(--muted)"></div></div>
+                <div class="fp-bar-pct">22%</div>
+              </div>
+            </div>
+          </div>
+          <div class="finance-phase">
+            <div class="fp-header">
+              <div class="fp-label">AÑO 10 · Consolidado</div>
+              <div class="fp-amount">USD 13M <small>total</small></div>
+            </div>
+            <div class="fp-bars">
+              <div class="fp-bar-row">
+                <div class="fp-bar-label">Marketplace LATAM</div>
+                <div class="fp-bar-track"><div class="fp-bar-fill" style="width:38%;background:var(--green)"></div></div>
+                <div class="fp-bar-pct">38%</div>
+              </div>
+              <div class="fp-bar-row">
+                <div class="fp-bar-label">Contratos regionales</div>
+                <div class="fp-bar-track"><div class="fp-bar-fill" style="width:43%;background:var(--blue)"></div></div>
+                <div class="fp-bar-pct">43%</div>
+              </div>
+              <div class="fp-bar-row">
+                <div class="fp-bar-label">Servicios + LATAM</div>
+                <div class="fp-bar-track"><div class="fp-bar-fill" style="width:19%;background:var(--amber)"></div></div>
+                <div class="fp-bar-pct">19%</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CUÁNDO -->
+<section id="cuando" class="sec-alt">
+  <div class="container">
+    <div class="sec-header">
+      <div class="sec-eyebrow">04 · Cuándo</div>
+      <h2 class="sec-title">Roadmap a 10 años.</h2>
+      <p class="sec-desc">Cuatro fases con hitos concretos. La velocidad no es opcional: la ventana de posicionamiento está abierta ahora.</p>
+    </div>
+    <div class="roadmap">
+      <div class="roadmap-line"></div>
+      <div class="roadmap-items">
+
+        <div class="roadmap-item">
+          <div class="roadmap-dot">
+            <div class="roadmap-dot-circle rd-active">Y1-2</div>
+            <div class="roadmap-dot-label">Fundación</div>
+          </div>
+          <div class="roadmap-content is-active">
+            <div class="roadmap-phase">FASE 1 · 2025-2026</div>
+            <h3>Construcción de infraestructura y prueba de concepto</h3>
+            <div class="roadmap-tags">
+              <span class="rtag">Valparaíso</span>
+              <span class="rtag">Antofagasta</span>
+              <span class="rtag">Corfo convenio</span>
+              <span class="rtag">Equipo núcleo</span>
+              <span class="rtag">Observatorio activo</span>
+              <span class="rtag">4-6 pilotos iniciales</span>
+            </div>
+            <div class="roadmap-kpi">
+              Meta: <span>12 pilotos completados</span> · <span>Marketplace beta</span> · <span>CSP operativo</span> · <span>15% ingresos propios</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="roadmap-item">
+          <div class="roadmap-dot">
+            <div class="roadmap-dot-circle rd-future">Y3-4</div>
+            <div class="roadmap-dot-label">Crecimiento</div>
+          </div>
+          <div class="roadmap-content">
+            <div class="roadmap-phase">FASE 2 · 2027-2028</div>
+            <h3>Expansión regional y lanzamiento del Marketplace</h3>
+            <div class="roadmap-tags">
+              <span class="rtag">4 regiones</span>
+              <span class="rtag">Marketplace v1.0</span>
+              <span class="rtag">20+ soluciones certificadas</span>
+              <span class="rtag">Primer multilateral</span>
+              <span class="rtag">Evento nacional GovTech</span>
+            </div>
+            <div class="roadmap-kpi">
+              Meta: <span>50 pilotos acumulados</span> · <span>30 soluciones implementadas</span> · <span>30% ingresos propios</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="roadmap-item">
+          <div class="roadmap-dot">
+            <div class="roadmap-dot-circle rd-future">Y5-7</div>
+            <div class="roadmap-dot-label">Escala Nacional</div>
+          </div>
+          <div class="roadmap-content">
+            <div class="roadmap-phase">FASE 3 · 2029-2031</div>
+            <h3>Cobertura nacional e inicio de internacionalización</h3>
+            <div class="roadmap-tags">
+              <span class="rtag">7+ regiones</span>
+              <span class="rtag">Marketplace maduro</span>
+              <span class="rtag">Colombia / Perú / Uruguay</span>
+              <span class="rtag">Referente LATAM</span>
+              <span class="rtag">50% autosustentable</span>
+            </div>
+            <div class="roadmap-kpi">
+              Meta: <span>80 soluciones implementadas</span> · <span>500K ciudadanos beneficiados</span> · <span>USD 50M valor generado</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="roadmap-item">
+          <div class="roadmap-dot">
+            <div class="roadmap-dot-circle rd-far">Y8-10</div>
+            <div class="roadmap-dot-label">LATAM</div>
+          </div>
+          <div class="roadmap-content">
+            <div class="roadmap-phase">FASE 4 · 2032-2035</div>
+            <h3>Laboratorio latinoamericano de innovación pública</h3>
+            <div class="roadmap-tags">
+              <span class="rtag">Chile → 16 regiones</span>
+              <span class="rtag">4+ países LATAM</span>
+              <span class="rtag">Marketplace transfronterizo</span>
+              <span class="rtag">70% autosustentable</span>
+              <span class="rtag">Modelo exportable</span>
+            </div>
+            <div class="roadmap-kpi">
+              Meta: <span>250 soluciones implementadas</span> · <span>3M ciudadanos beneficiados</span> · <span>USD 200M valor generado</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DÓNDE -->
+<section id="donde">
+  <div class="container">
+    <div class="sec-header">
+      <div class="sec-eyebrow">05 · Dónde</div>
+      <h2 class="sec-title">Dos territorios piloto,<br>de clase mundial.</h2>
+      <p class="sec-desc">Valparaíso y Antofagasta no son un punto de partida modesto. Son dos de los laboratorios más complejos y potentes del país, con ecosistemas diferenciados y desafíos de escala real.</p>
+    </div>
+    <div class="territories">
+      <div class="territory val">
+        <div class="territory-badge">Territorio Piloto 01</div>
+        <h3>Región de Valparaíso</h3>
+        <div class="territory-sub">Principal conglomerado portuario · Universidades de primer nivel · Economía de servicios en transición</div>
+        <div class="territory-tags">
+          <span class="territory-tag">Puerto y Logística</span>
+          <span class="territory-tag">Turismo</span>
+          <span class="territory-tag">Seguridad Ciudadana</span>
+          <span class="territory-tag">Smart Cities</span>
+          <span class="territory-tag">Economía Circular</span>
+        </div>
+        <div class="territory-projects">
+          <div class="territory-project">Sistema integrado de seguridad ciudadana con IA</div>
+          <div class="territory-project">Gestión de residuos y economía circular portuaria</div>
+          <div class="territory-project">Plataforma de turismo inteligente e identidad territorial</div>
+        </div>
+      </div>
+      <div class="territory ant">
+        <div class="territory-badge">Territorio Piloto 02</div>
+        <h3>Región de Antofagasta</h3>
+        <div class="territory-sub">Capital del cobre y el litio · Transición energética · Economía que financia al resto del país</div>
+        <div class="territory-tags">
+          <span class="territory-tag">Minería Verde</span>
+          <span class="territory-tag">Monitoreo Ambiental</span>
+          <span class="territory-tag">Reconversión Laboral</span>
+          <span class="territory-tag">Gestión Hídrica</span>
+          <span class="territory-tag">Energía</span>
+        </div>
+        <div class="territory-projects">
+          <div class="territory-project">Monitoreo ambiental minero-ciudadano en tiempo real</div>
+          <div class="territory-project">Reconversión laboral para la transición energética</div>
+          <div class="territory-project">Agua y gestión hídrica para comunidades vulnerables</div>
+        </div>
+      </div>
+    </div>
+    <div class="latam-banner">
+      <div class="latam-banner-left">
+        <h3>Expansión LATAM · Fases 3 y 4</h3>
+        <p>Países prioritarios para licenciamiento metodológico y Marketplace transfronterizo</p>
+      </div>
+      <div class="latam-countries">
+        <div class="latam-country">🇨🇴 Colombia</div>
+        <div class="latam-country">🇵🇪 Perú</div>
+        <div class="latam-country">🇺🇾 Uruguay</div>
+        <div class="latam-country">🇧🇷 Brasil</div>
+        <div class="latam-country">🇲🇽 México</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- QUIÉNES -->
+<section id="quienes" class="sec-alt">
+  <div class="container">
+    <div class="sec-header">
+      <div class="sec-eyebrow">06 · Quiénes</div>
+      <h2 class="sec-title">Por qué Socialab.<br>Por qué ahora.</h2>
+      <p class="sec-desc">No se construye una infraestructura de mercado desde cero. Se redirige el capital institucional que ya existe. Socialab tiene lo que ningún competidor puede comprar: legitimidad de ecosistema, metodologías probadas y comunidad activa en LATAM.</p>
+    </div>
+    <div class="actors-grid">
+      <div class="actor-card">
+        <div class="actor-icon" style="background:rgba(33,150,243,.1)">🔧</div>
+        <h3>Plataforma tecnológica existente</h3>
+        <p>No se construye desde cero. Se extiende con módulos GovTech específicos sobre infraestructura probada.</p>
+        <div class="actor-role">Capital reutilizado</div>
+      </div>
+      <div class="actor-card">
+        <div class="actor-icon" style="background:rgba(0,201,167,.1)">🧭</div>
+        <h3>Metodologías validadas</h3>
+        <p>Innovación abierta, gestión de desafíos, evaluación y selección de soluciones. Probadas en programas reales con impacto medido.</p>
+        <div class="actor-role">Know-how propietario</div>
+      </div>
+      <div class="actor-card">
+        <div class="actor-icon" style="background:rgba(245,158,11,.1)">🌐</div>
+        <h3>Comunidad activa LATAM</h3>
+        <p>Red de emprendedores, evaluadores, mentores y aliados institucionales activos que ningún competidor puede replicar rápidamente.</p>
+        <div class="actor-role">Activo no replicable</div>
+      </div>
+      <div class="actor-card">
+        <div class="actor-icon" style="background:rgba(33,150,243,.1)">🏆</div>
+        <h3>Posicionamiento institucional</h3>
+        <p>Credibilidad con el sector público y el ecosistema emprendedor simultáneamente. Una combinación que las consultoras y las aceleradoras no tienen.</p>
+        <div class="actor-role">Ventaja competitiva</div>
+      </div>
+      <div class="actor-card">
+        <div class="actor-icon" style="background:rgba(0,201,167,.1)">📍</div>
+        <h3>ValpoEmprende y experiencia territorial</h3>
+        <p>Programas operados en regiones con aprendizajes concretos de cómo articular ecosistemas fuera de Santiago.</p>
+        <div class="actor-role">Evidencia territorial</div>
+      </div>
+      <div class="actor-card">
+        <div class="actor-icon" style="background:rgba(245,158,11,.1)">⏱️</div>
+        <h3>El momento es ahora</h3>
+        <p>Descentralización activa, Gobiernos Regionales con presupuesto propio, Corfo con mandato de innovación y una generación de startups GovTech lista.</p>
+        <div class="actor-role">Ventana de oportunidad</div>
+      </div>
+    </div>
+
+    <!-- KPIs -->
+    <div style="margin-top:3rem">
+      <div class="sec-eyebrow" style="margin-bottom:1.5rem">KPIs estratégicos prioritarios</div>
+      <div class="kpi-grid">
+        <div class="kpi-card">
+          <div class="kpi-val">250</div>
+          <div class="kpi-name">Soluciones implementadas</div>
+          <div class="kpi-desc">En organismos públicos reales, con evidencia verificada de impacto</div>
+          <div class="kpi-horizon">AL AÑO 10</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-val green">USD 200M</div>
+          <div class="kpi-name">Valor generado al sector público</div>
+          <div class="kpi-desc">Ahorro, eficiencia y nuevos servicios medidos con metodología rigurosa</div>
+          <div class="kpi-horizon">AL AÑO 10</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-val amber">USD 80M</div>
+          <div class="kpi-name">Inversión movilizada</div>
+          <div class="kpi-desc">Pública y privada, en startups GovTech y pilotos del ecosistema</div>
+          <div class="kpi-horizon">AL AÑO 10</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-val">3M+</div>
+          <div class="kpi-name">Ciudadanos beneficiados</div>
+          <div class="kpi-desc">Con acceso a servicios públicos mejorados o innovados</div>
+          <div class="kpi-horizon">AL AÑO 10</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-val green">16</div>
+          <div class="kpi-name">Regiones participantes</div>
+          <div class="kpi-desc">De 2 regiones piloto en año 1 a cobertura nacional completa</div>
+          <div class="kpi-horizon">AL AÑO 10</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-val amber">100</div>
+          <div class="kpi-name">Startups escaladas</div>
+          <div class="kpi-desc">Con contratos en 3+ organismos públicos distintos a través del ecosistema</div>
+          <div class="kpi-horizon">AL AÑO 10</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DOCUMENTOS -->
+<section id="documentos" class="tabs-section">
+  <div class="tabs-container">
+    <div class="sec-header">
+      <div class="sec-eyebrow">Documentos fundacionales</div>
+      <h2 class="sec-title">Base estratégica<br>completa.</h2>
+      <p class="sec-desc">Dos documentos de nivel internacional que sirven simultáneamente para Directorio, Corfo, Gobiernos Regionales, multilaterales y empresas patrocinadoras.</p>
+    </div>
+    <div class="tab-header">
+      <button class="tab-btn active" onclick="showTab('estrategia')">📋 Documento Estratégico</button>
+      <button class="tab-btn" onclick="showTab('negocio')">💼 Modelo de Negocio</button>
+    </div>
+
+    <div id="tab-estrategia" class="tab-content active">
+      <div class="doc-display">
+        <div class="doc-toolbar">
+          <div class="doc-toolbar-left">
+            <div class="doc-dots"><div class="doc-dot d1"></div><div class="doc-dot d2"></div><div class="doc-dot d3"></div></div>
+            <div class="doc-title">socialab-govtech-estrategia-v1.0.md</div>
+          </div>
+          <div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--border)">~15.000 palabras</div>
+        </div>
+        <div class="doc-body">
+          <div class="doc-tag">DOCUMENTO ESTRATÉGICO FUNDACIONAL · V1.0</div>
+          <h1>SOCIALAB GOVTECH</h1>
+          <p style="color:var(--blue-light);font-family:'DM Mono',monospace;font-size:11px;letter-spacing:1px">Infraestructura Nacional para la Innovación Pública Territorial</p>
+
+          <h2>1. Diagnóstico de Oportunidad</h2>
+          <p>Chile gasta alrededor del 26% de su PIB en gasto público. El Estado opera como el principal contratante, comprador y habilitador de servicios en salud, educación, seguridad y decenas de otros dominios. Sin embargo, la capacidad del Estado para incorporar innovación a sus procesos es crónicamente baja, no por falta de voluntad ni de recursos, sino por un problema de <strong>arquitectura sistémica</strong>.</p>
+          <div class="highlight-box"><p>El problema central no es la ausencia de soluciones. Es la ausencia de un mercado funcional que permita que las soluciones existentes lleguen al Estado.</p></div>
+          <p>Existen cuatro brechas estructurales: (1) Articulación — emprendedores y startups sin acceso sistemático a organismos públicos; (2) Validación circular — el Estado exige evidencia para comprar, pero los pilotos requieren acceso al Estado; (3) Escalamiento nulo — soluciones exitosas en un municipio no tienen mecanismos para replicarse; (4) Concentración territorial — innovación hiperconcentrada en Santiago, mientras Gobiernos Regionales tienen presupuesto pero carecen de instrumentos.</p>
+
+          <h2>2. Tendencias Globales</h2>
+          <p>El mercado GovTech global superó los 500 mil millones de dólares en 2023 y se proyecta que alcance el billón antes de 2030. En Europa, el GovTech Lab Lithuania, el GovTech Hub Denmark y la iniciativa OGP han construido infraestructuras de intermediación que conectan sistemáticamente startups con organismos públicos. En América Latina, este mercado está en formación. Esa brecha es la oportunidad de Socialab GovTech.</p>
+          <p>La IA no es simplemente una herramienta de eficiencia para el sector público. Es un restructurador de la capacidad institucional del Estado. Chile tiene la infraestructura digital, el capital humano técnico y la estabilidad institucional para convertirse en el laboratorio de referencia de IA aplicada al sector público en América Latina.</p>
+
+          <h2>3. Benchmark Internacional</h2>
+          <p><strong>GovTech Lab Lithuania:</strong> Convierte problemas públicos en desafíos abiertos, facilita pilotos rápidos y construye un catálogo de soluciones validadas. Resultado en 5 años: más de 200 desafíos, 80 soluciones pilotadas, modelo exportado a 12 países europeos.</p>
+          <p><strong>Nesta (Reino Unido):</strong> Demuestra cómo una organización de innovación mantiene independencia intelectual mientras trabaja con el Estado, combinando investigación rigurosa, diseño de programas y construcción de capacidades.</p>
+          <p><strong>Bloomberg Philanthropies — Innovation Teams:</strong> Instala capacidades de pensamiento de diseño y experimentación dentro de organismos públicos en 40+ ciudades del mundo, incluyendo latinoamericanas.</p>
+          <p><strong>GovTech Hub Bogotá:</strong> Referente directo para Chile por contexto institucional latinoamericano compartido. Desarrolló instrumentos de contratación pública para startups que reducen los requisitos de acceso sin comprometer la transparencia.</p>
+
+          <h2>4. Posicionamiento, Visión y Misión</h2>
+          <p>Socialab GovTech se posiciona como <strong>la infraestructura nacional de innovación pública territorial de Chile</strong>: la plataforma de articulación que convierte los desafíos públicos en oportunidades para el ecosistema emprendedor, y las soluciones innovadoras en políticas públicas implementadas y escaladas.</p>
+          <p><strong>Visión:</strong> Chile se convierte en 2035 en el principal laboratorio latinoamericano de innovación pública territorial, reconocido internacionalmente por su capacidad de identificar desafíos públicos complejos, movilizar ecosistemas de emprendimiento para resolverlos, pilotar soluciones con rigor metodológico, y escalar las más efectivas a través de un mercado GovTech maduro y exportable.</p>
+          <p><strong>Misión:</strong> Construir y operar el ecosistema nacional de innovación pública territorial que articula ciudadanos, emprendedores, instituciones públicas, empresas y organismos multilaterales para identificar, validar, escalar y exportar soluciones de alto impacto a los desafíos públicos de Chile y América Latina.</p>
+
+          <h2>5. Teoría de Cambio</h2>
+          <p>La teoría de cambio opera en seis niveles causales: (1) Actividades — captura de desafíos, matching, pilotos, evidencia, escalamiento; (2) Productos — desafíos documentados, pilotos ejecutados, soluciones escaladas; (3) Resultados de corto plazo — organismos públicos con metodologías de innovación, startups con primeros contratos públicos; (4) Resultados de mediano plazo — mercado GovTech funcional, reducción del costo de prestación de servicios; (5) Impacto de largo plazo — Chile referente latinoamericano; (6) Cambio sistémico — alteración de la lógica de relación entre Estado, sector privado y ciudadanía.</p>
+
+          <h2>6. Arquitectura del Ecosistema — Cinco Componentes</h2>
+          <p><strong>Observatorio de Desafíos Públicos:</strong> Sistema de inteligencia con IA para capturar, clasificar y priorizar desafíos desde múltiples fuentes. Produce el Mapa Nacional de Desafíos (trimestral), Informes Territoriales (semestrales) y Alertas Tempranas de Oportunidad.</p>
+          <p><strong>Plataforma de Innovación Abierta:</strong> Motor operativo sobre la plataforma existente de Socialab, extendida con módulos GovTech: gestión de desafíos, directorio de soluciones, matching inteligente y gestión de pilotos.</p>
+          <p><strong>Laboratorio de Pilotaje Territorial:</strong> Pilotos de 90-120 días en contextos reales, con organismos públicos comprometidos. Cada piloto produce un Dossier de Evidencia estándar público y comparable.</p>
+          <p><strong>Marketplace GovTech:</strong> Mercado de dos lados donde organismos públicos encuentran y contratan soluciones certificadas por evidencia. Modelo de ingresos: membresías + comisiones + certificación.</p>
+          <p><strong>Programa de Escalamiento Nacional:</strong> Franquicia metodológica que lleva soluciones validadas a nuevos territorios mediante replicación facilitada, compra pública abierta y adopción de política pública.</p>
+
+          <h2>7. Modelo de Gobernanza</h2>
+          <p><strong>Consejo Estratégico Permanente (CSP):</strong> Socialab (presidencia), 2 Gobiernos Regionales, Corfo, 2 universidades, 2 empresas privadas, 1 representante electivo del ecosistema emprendedor. Reuniones trimestrales formales con poder de agenda estratégica.</p>
+          <p><strong>Mesas Temáticas:</strong> Grupos de trabajo de 12-24 meses por dominio: Seguridad, Salud, Educación, Turismo, Medio Ambiente, Smart Cities, Desarrollo Productivo, Participación Ciudadana, IA para el Sector Público.</p>
+          <p><strong>Regla de independencia:</strong> Socialab mantiene poder de veto sobre decisiones que comprometan la independencia institucional. La presidencia del CSP en manos de Socialab es una decisión deliberada para garantizar agilidad ejecutiva.</p>
+
+          <h2>8. Inteligencia Artificial como Diferenciador</h2>
+          <p>Cuatro capas de IA: (1) Inteligencia del Ecosistema — clasificación automática de desafíos, análisis de patrones, alertas tempranas; (2) Matching — embeddings semánticos para alinear desafíos y soluciones; (3) Pilotaje — asistentes de diseño de hipótesis, monitoreo con detección de desviaciones; (4) Toma de Decisiones Pública — analítica predictiva para priorizar intervenciones con criterios de explicabilidad y control humano efectivo.</p>
+
+          <h2>9. Gestión de Riesgos</h2>
+          <p>Los seis riesgos críticos identificados son: (1) Captura política — mitigado con regla del 30% por actor y cláusulas de independencia editorial; (2) Cambios de gobierno — mitigado con contratos plurianuales y valor técnico transversal; (3) Baja adopción institucional — mitigado concentrando primeros pilotos en early adopters institucionales; (4) Ecosistema insuficiente — mitigado con mapeo sistemático previo al lanzamiento; (5) Competencia de consultoras internacionales — mitigado con velocidad de posicionamiento y activos no replicables; (6) Complejidad regulatoria — mitigado con trabajo proactivo con ChileCompra.</p>
+
+          <h2>10. Roadmap — Síntesis</h2>
+          <p><strong>Año 1-2:</strong> Contratos Valparaíso y Antofagasta, equipo núcleo, Observatorio activo, 12 pilotos completados, Marketplace beta, CSP operativo, 15% ingresos propios.</p>
+          <p><strong>Año 3-5:</strong> 4-7 regiones, Marketplace v1.0 con 20+ soluciones certificadas, primer acuerdo multilateral, evento nacional GovTech, 30-50% autosustentable.</p>
+          <p><strong>Año 6-10:</strong> Cobertura nacional, expansión a Colombia / Perú / Uruguay, Marketplace latinoamericano, 70% autosustentable, Chile referente internacional.</p>
+        </div>
+      </div>
+    </div>
+
+    <div id="tab-negocio" class="tab-content">
+      <div class="doc-display">
+        <div class="doc-toolbar">
+          <div class="doc-toolbar-left">
+            <div class="doc-dots"><div class="doc-dot d1"></div><div class="doc-dot d2"></div><div class="doc-dot d3"></div></div>
+            <div class="doc-title">socialab-govtech-modelo-negocio-v1.0.md</div>
+          </div>
+          <div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--border)">~8.000 palabras</div>
+        </div>
+        <div class="doc-body">
+          <div class="doc-tag">MODELO DE NEGOCIO · DOCUMENTO COMPLEMENTARIO · V1.0</div>
+          <h1>SOCIALAB GOVTECH</h1>
+          <p style="color:var(--blue-light);font-family:'DM Mono',monospace;font-size:11px;letter-spacing:1px">Modelo de Negocio — Arquitectura de Sostenibilidad Financiera</p>
+
+          <h2>Lógica económica central</h2>
+          <div class="highlight-box"><p>El que paga no es necesariamente el que se beneficia, y el que más se beneficia no siempre tiene presupuesto ni voluntad de pagar. Resolver esa tensión es el núcleo del diseño del modelo de negocio de Socialab GovTech.</p></div>
+          <p>Cinco activos con valor de mercado real: (1) <strong>Reducción de incertidumbre institucional</strong> — los organismos públicos pagan por certeza, no por novedad; (2) <strong>Acceso a mercado para startups GovTech</strong> — el principal cuello de botella no es la tecnología sino el acceso; (3) <strong>Inteligencia territorial acumulada</strong> — el Observatorio genera datos que ningún actor puede construir individualmente; (4) <strong>Evidencia de impacto verificada</strong> — los dossiers de pilotos son un bien escaso y valioso; (5) <strong>Legitimidad de intermediación</strong> — la capacidad de sentarse en la misma mesa con el Gobernador, el Alcalde y el fundador de startup simultáneamente.</p>
+
+          <h2>Línea 1: Contratos Territoriales con Gobiernos Regionales</h2>
+          <p>Contratos anuales o plurianuales con entregables definidos, indicadores de resultado y mecanismos de evaluación. No son donaciones ni fondos concursables. Son contratos de servicios con precio justificado: una consultora internacional cobraría el doble sin la plataforma, comunidad ni legitimidad de Socialab.</p>
+          <p><strong>Precio base:</strong> USD 400.000 a 600.000 por región / año. Progresión: 2 regiones año 1 (USD 1M) → 7 regiones año 5 (USD 3.2M) → 14 regiones año 10 (USD 6.5M).</p>
+          <p><strong>Riesgo principal:</strong> Cambios de gobierno regional. Mitigación: contratos plurianuales con cláusulas de continuidad + demostración de valor en primeros 6 meses.</p>
+
+          <h2>Línea 2: Programa Corfo — Innovación Pública Territorial</h2>
+          <p>La propuesta a Corfo no es "danos un fondo concursable". Es "co-diseñemos un instrumento que no existe": Fondo de Infraestructura (cubre costos fijos de bien público: Observatorio, plataforma, IA) + Fondo de Pilotos GovTech (financia directamente costos de pilotos entre startups y organismos públicos, eliminando el principal cuello de botella).</p>
+          <p>Este segundo instrumento no existe hoy en Chile y llena un vacío que ningún mecanismo actual cubre adecuadamente. <strong>Financiamiento estimado:</strong> USD 400.000 a 700.000 / año en etapa inicial.</p>
+
+          <h2>Línea 3: Patrocinios Corporativos Estratégicos</h2>
+          <p>Las empresas no compran visibilidad de marca. Compran: acceso anticipado al flujo de desafíos del Observatorio, participación en mesas temáticas de su industria, acceso al directorio de startups GovTech para inversión / adquisición / colaboración, y posicionamiento genuino con evidencia verificada.</p>
+          <p><strong>Niveles:</strong> Sectorial (USD 30-60K / año) · Nacional (USD 80-150K / año) · Fundador (USD 150-300K / 2 años). Sectores prioritarios: Puerto-logística y turismo en Valparaíso; Gran minería y energía en Antofagasta.</p>
+
+          <h2>Línea 4: Marketplace GovTech — La apuesta de largo plazo</h2>
+          <p>La única línea que escala sin escalar proporcionalmente los costos. Un Marketplace con 200 soluciones y 100 organismos miembros genera ingresos con un equipo de 3-5 personas. La diferencia entre un modelo de servicios y un modelo de plataforma.</p>
+          <p><strong>Condición de activación:</strong> mínimo 15 soluciones con dossier de evidencia completo y 8 organismos públicos con piloto completado. Normalmente año 2 final o inicio del año 3.</p>
+          <p><strong>Tres fuentes de ingreso:</strong> Membresías de organismos públicos (USD 2.500 a 80.000 / año según tamaño) + Comisiones por contratos facilitados (4-6% primer contrato, 2-3% renovaciones) + Certificación de soluciones (USD 3.000 a 8.000 / solución + USD 1.500 renovación anual).</p>
+          <p><strong>Proyección Marketplace:</strong> Año 3: USD 200-350K · Año 5: USD 800K-1.3M · Año 7: USD 2-3M · Año 10: USD 4-6M.</p>
+
+          <h2>Línea 5: Servicios Especializados y Productos de Conocimiento</h2>
+          <p><strong>Formación en innovación pública:</strong> Diplomado 80hrs (USD 800-1.200 / participante), Workshops 2 días (USD 8-15K / taller), Programa in-house 6 meses (USD 40-80K / organización).</p>
+          <p><strong>Informes de Inteligencia Territorial:</strong> Informe Anual (suscripción USD 500-1.000), Informes Territoriales por región (USD 2-5K / año), Informes Sectoriales Temáticos (USD 5-15K).</p>
+          <p><strong>Asesoría a multilaterales:</strong> Proyectos 3-9 meses con BID, CAF, Banco Mundial (USD 1.500-3.000 / día / persona). Año 3+: 2-4 proyectos / año = USD 200-500K.</p>
+          <p><strong>Licenciamiento LATAM:</strong> Año 7+, licencia anual de plataforma (USD 30-60K / país) + royalty 5% sobre ingresos del licenciatario.</p>
+
+          <h2>Los tres momentos críticos del modelo</h2>
+          <p><strong>Momento 1 — Primera renovación regional (fin año 1):</strong> El test más importante. Estrategia: identificar en los primeros 60 días el desafío que genera mayor impacto político para el Gobernador y concentrar todos los recursos en resolverlo con evidencia impecable. Una victoria concreta vale más que diez iniciativas en desarrollo.</p>
+          <p><strong>Momento 2 — Lanzamiento del Marketplace (inicio año 3):</strong> Lanzamiento privado previo al público. Primero 15-20 soluciones certificadas y 10-15 organismos con membresía de lanzamiento. El Marketplace público debe tener masa crítica desde el día uno.</p>
+          <p><strong>Momento 3 — Transición a autonomía financiera (años 4-5):</strong> La más difícil organizacionalmente. Requiere capacidades comerciales que las organizaciones de innovación pública suelen desarrollar mal. Construirlas desde el inicio, no cuando sea urgente.</p>
+
+          <h2>Regla de oro: independencia financiera</h2>
+          <div class="highlight-box"><p><strong>Ninguna fuente individual supera el 30% del presupuesto total.</strong> La independencia no se declama. Se diseña en la arquitectura financiera desde el primer día.</p></div>
+          <p>El modelo de negocio de Socialab GovTech no es el mecanismo de financiamiento de la misión. Es la arquitectura de incentivos que hace que la misión sea sostenible. Cada línea de ingreso, correctamente diseñada, alinea los incentivos de un actor del ecosistema con los objetivos del sistema.</p>
+
+          <h2>Señales de alerta</h2>
+          <ul>
+            <li>Si a los 12 meses ningún piloto terminó con dossier completo: problema de velocidad operativa.</li>
+            <li>Si a los 18 meses algún contrato regional está en riesgo: problema de propuesta de valor.</li>
+            <li>Si a los 24 meses hay menos de 10 soluciones con evidencia mínima: problema de masa crítica de oferta.</li>
+            <li>Si a los 36 meses los ingresos propios son menos del 15% del total: camino a la sostenibilidad descarrilado.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     SECCIÓN: PLAN DE LANZAMIENTO + FASE 0
+     ============================================================ -->
+
+<style>
+/* ---- LAUNCH SECTION STYLES ---- */
+.launch-section{background:var(--bg1);padding:6rem 2rem;position:relative;overflow:hidden}
+.launch-section::before{content:'';position:absolute;inset:0;background-image:radial-gradient(circle,rgba(33,150,243,.07) 1px,transparent 1px);background-size:44px 44px;opacity:.35;pointer-events:none}
+
+/* Decision strip */
+.decision-banner{background:var(--bg3);border:.5px solid rgba(245,158,11,.3);border-left:3px solid var(--amber);border-radius:0 var(--radius) var(--radius) 0;padding:1.25rem 1.75rem;margin-bottom:3rem;display:flex;align-items:flex-start;gap:1rem}
+.decision-banner-icon{font-size:22px;flex-shrink:0;margin-top:2px}
+.decision-banner-text{}
+.decision-banner-text strong{font-size:14px;color:var(--text);font-weight:700;display:block;margin-bottom:.3rem}
+.decision-banner-text p{font-size:13px;color:var(--muted);line-height:1.6;margin:0}
+
+/* Condensed 3-col summary */
+.summary-3{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:.5px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:3rem}
+.s3-card{background:var(--bg3);padding:1.75rem 1.5rem}
+.s3-label{font-family:'DM Mono',monospace;font-size:9px;color:var(--blue);letter-spacing:3px;text-transform:uppercase;margin-bottom:.75rem}
+.s3-title{font-size:17px;font-weight:700;color:var(--white);margin-bottom:.75rem;line-height:1.3}
+.s3-items{display:flex;flex-direction:column;gap:.4rem}
+.s3-item{font-size:12px;color:var(--muted);padding-left:.875rem;position:relative;line-height:1.5}
+.s3-item::before{content:'→';position:absolute;left:0;color:var(--blue);font-size:11px}
+.s3-item strong{color:var(--text)}
+
+/* ---- FASE 0 MAIN LAYOUT ---- */
+.phase0-title-block{text-align:center;margin-bottom:3rem}
+.phase0-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(0,201,167,.1);color:var(--green);border:.5px solid rgba(0,201,167,.3);border-radius:100px;padding:6px 18px;font-size:11px;letter-spacing:2px;text-transform:uppercase;margin-bottom:1.5rem;font-family:'DM Mono',monospace}
+.phase0-badge::before{content:'';width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 8px var(--green);flex-shrink:0}
+
+/* 4 Decisions block */
+.decisions-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem;margin-bottom:3rem}
+.decision-card{background:var(--bg3);border:.5px solid var(--border);border-radius:var(--radius);padding:1.5rem;position:relative;overflow:hidden;transition:border-color .2s}
+.decision-card:hover{border-color:rgba(33,150,243,.3)}
+.decision-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--border)}
+.decision-card.critical::before{background:var(--amber)}
+.decision-card.action::before{background:var(--blue)}
+.decision-card.people::before{background:var(--green)}
+.decision-card.money::before{background:#a855f7}
+.dc-num{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:3px;color:var(--muted);margin-bottom:.5rem}
+.dc-title{font-size:15px;font-weight:700;color:var(--white);margin-bottom:.5rem}
+.dc-desc{font-size:12px;color:var(--muted);line-height:1.6;margin-bottom:.875rem}
+.dc-action{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:600;font-family:'DM Mono',monospace;letter-spacing:.5px}
+.dc-action.amber{color:var(--amber)}
+.dc-action.blue{color:var(--blue-light)}
+.dc-action.green{color:var(--green)}
+.dc-action.purple{color:#c084fc}
+
+/* ---- 90-DAY TIMELINE ---- */
+.timeline-wrap{margin-bottom:3rem}
+.timeline-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;flex-wrap:wrap;gap:.75rem}
+.timeline-header h3{font-size:18px;font-weight:700;color:var(--white)}
+.timeline-legend{display:flex;gap:1rem;align-items:center;flex-wrap:wrap}
+.tl-legend-item{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--muted)}
+.tl-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+
+.timeline-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
+.tl-phase{background:var(--bg3);border:.5px solid var(--border);border-radius:var(--radius);overflow:hidden}
+.tl-phase-header{padding:.875rem 1.25rem;display:flex;align-items:center;gap:.75rem;border-bottom:.5px solid var(--border)}
+.tl-phase-dot{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'DM Mono',monospace;font-size:10px;font-weight:700;flex-shrink:0}
+.phase-a .tl-phase-dot{background:rgba(245,158,11,.15);color:var(--amber);border:.5px solid rgba(245,158,11,.3)}
+.phase-b .tl-phase-dot{background:rgba(33,150,243,.15);color:var(--blue);border:.5px solid rgba(33,150,243,.3)}
+.phase-c .tl-phase-dot{background:rgba(0,201,167,.15);color:var(--green);border:.5px solid rgba(0,201,167,.3)}
+.tl-phase-label{font-family:'DM Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase}
+.tl-phase-title{font-size:13px;font-weight:700;color:var(--white)}
+.tl-tasks{padding:.875rem 1.25rem;display:flex;flex-direction:column;gap:.6rem}
+.tl-task{display:flex;align-items:flex-start;gap:.625rem;font-size:12px;color:var(--muted);line-height:1.5}
+.tl-task-dot{width:5px;height:5px;border-radius:50%;flex-shrink:0;margin-top:.4rem}
+.task-amber{background:var(--amber)}
+.task-blue{background:var(--blue)}
+.task-green{background:var(--green)}
+.task-muted{background:var(--border)}
+.tl-task strong{color:var(--text)}
+
+/* ---- 4 CONVERSATIONS ---- */
+.convos-section{margin-bottom:3rem}
+.convos-header{display:flex;align-items:baseline;gap:1rem;margin-bottom:1.5rem;flex-wrap:wrap}
+.convos-header h3{font-size:18px;font-weight:700;color:var(--white)}
+.convos-header span{font-size:12px;color:var(--muted);font-family:'DM Mono',monospace}
+.convos-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem}
+.convo-card{background:var(--bg3);border:.5px solid var(--border);border-radius:var(--radius);padding:1.5rem;display:flex;flex-direction:column;gap:.875rem;transition:all .2s}
+.convo-card:hover{border-color:rgba(33,150,243,.3);background:var(--bg4)}
+.convo-who{display:flex;align-items:center;gap:.75rem}
+.convo-icon{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.convo-who-text{}
+.convo-who-label{font-family:'DM Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:2px;text-transform:uppercase}
+.convo-who-name{font-size:14px;font-weight:700;color:var(--white)}
+.convo-ask{font-size:12px;color:var(--muted);line-height:1.6;border-top:.5px solid var(--border);padding-top:.875rem}
+.convo-ask strong{color:var(--blue-light);display:block;margin-bottom:.25rem;font-size:11px;font-family:'DM Mono',monospace;letter-spacing:.5px;text-transform:uppercase}
+.convo-result{display:flex;align-items:center;gap:.5rem;font-size:11px;color:var(--muted);border-top:.5px solid var(--border);padding-top:.75rem}
+.convo-result::before{content:'Meta';font-family:'DM Mono',monospace;font-size:9px;color:var(--blue);letter-spacing:1px;background:var(--blue-pale);border-radius:4px;padding:2px 7px;white-space:nowrap}
+
+/* ---- PILOT DEMO SECTION ---- */
+.pilot-section{background:var(--bg2);border:.5px solid var(--border);border-radius:var(--radius);padding:2rem;margin-bottom:3rem}
+.pilot-header{display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;margin-bottom:1.5rem;padding-bottom:1.5rem;border-bottom:.5px solid var(--border);flex-wrap:wrap}
+.pilot-header-left h3{font-size:18px;font-weight:700;color:var(--white);margin-bottom:.25rem}
+.pilot-header-left p{font-size:13px;color:var(--muted)}
+.pilot-header-right{text-align:right;flex-shrink:0}
+.pilot-cost{font-size:22px;font-weight:800;color:var(--green);letter-spacing:-1px;font-family:'Inter',sans-serif}
+.pilot-cost-label{font-size:11px;color:var(--muted);font-family:'DM Mono',monospace}
+.pilot-flow{display:flex;align-items:stretch;gap:0;border:.5px solid var(--border);border-radius:8px;overflow:hidden;background:var(--bg3)}
+.pilot-step{flex:1;padding:1.25rem 1rem;text-align:center;position:relative;border-right:.5px solid var(--border);transition:background .15s}
+.pilot-step:last-child{border-right:none}
+.pilot-step:hover{background:var(--bg4)}
+.pilot-step-n{font-family:'DM Mono',monospace;font-size:9px;color:var(--blue);letter-spacing:2px;margin-bottom:.4rem}
+.pilot-step-title{font-size:12px;font-weight:700;color:var(--white);margin-bottom:.3rem;line-height:1.3}
+.pilot-step-desc{font-size:10px;color:var(--muted);line-height:1.4}
+.pilot-step-time{font-family:'DM Mono',monospace;font-size:9px;color:var(--border);margin-top:.5rem}
+
+/* ---- TEAM MVT ---- */
+.team-section{margin-bottom:3rem}
+.team-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem}
+.team-card{background:var(--bg3);border:.5px solid var(--border);border-radius:var(--radius);padding:1.25rem;transition:all .2s}
+.team-card:hover{border-color:rgba(33,150,243,.3)}
+.team-card.critical-hire{border-color:rgba(245,158,11,.25);background:var(--bg4)}
+.team-badge{display:inline-block;border-radius:100px;padding:3px 10px;font-family:'DM Mono',monospace;font-size:9px;font-weight:600;letter-spacing:1px;text-transform:uppercase;margin-bottom:.875rem}
+.tb-critical{background:rgba(245,158,11,.1);color:var(--amber);border:.5px solid rgba(245,158,11,.2)}
+.tb-hire{background:var(--blue-pale);color:var(--blue-light);border:.5px solid rgba(33,150,243,.2)}
+.tb-internal{background:var(--green-dim);color:var(--green);border:.5px solid rgba(0,201,167,.2)}
+.tb-external{background:rgba(168,85,247,.1);color:#c084fc;border:.5px solid rgba(168,85,247,.2)}
+.team-card h4{font-size:13px;font-weight:700;color:var(--white);margin-bottom:.3rem}
+.team-card p{font-size:11px;color:var(--muted);line-height:1.5;margin-bottom:.75rem}
+.team-card-cost{font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);display:flex;align-items:center;gap:.4rem}
+.team-card-cost::before{content:'$';color:var(--green);font-weight:700}
+
+/* ---- FINANCING GAP ---- */
+.gap-section{margin-bottom:3rem}
+.gap-grid{display:grid;grid-template-columns:1.2fr 1fr;gap:1.5rem}
+.gap-sources{background:var(--bg3);border:.5px solid var(--border);border-radius:var(--radius);overflow:hidden}
+.gap-sources-header{background:var(--bg2);padding:.875rem 1.5rem;border-bottom:.5px solid var(--border);font-size:14px;font-weight:700;color:var(--white);display:flex;align-items:center;justify-content:space-between}
+.gap-total{font-family:'DM Mono',monospace;font-size:11px;color:var(--green)}
+.gap-row{display:grid;grid-template-columns:auto 1fr auto auto;align-items:center;gap:1rem;padding:.875rem 1.5rem;border-bottom:.5px solid var(--border-light);transition:background .15s}
+.gap-row:last-child{border-bottom:none}
+.gap-row:hover{background:var(--bg2)}
+.gap-row-n{font-family:'DM Mono',monospace;font-size:9px;color:var(--muted);width:20px}
+.gap-row-name{font-size:12px;color:var(--text);line-height:1.4}
+.gap-row-name small{display:block;font-size:10px;color:var(--muted)}
+.gap-row-track{width:80px;height:5px;background:var(--bg1);border-radius:3px;overflow:hidden}
+.gap-row-fill{height:100%;border-radius:3px}
+.gap-row-amt{font-family:'DM Mono',monospace;font-size:11px;color:var(--blue);white-space:nowrap;font-weight:600}
+
+.gap-signals{background:var(--bg3);border:.5px solid var(--border);border-radius:var(--radius);padding:1.5rem}
+.gap-signals h4{font-size:14px;font-weight:700;color:var(--white);margin-bottom:.5rem;padding-bottom:.875rem;border-bottom:.5px solid var(--border)}
+.signals-list{display:flex;flex-direction:column;gap:.75rem}
+.signal-item{display:flex;align-items:flex-start;gap:.75rem;padding:.875rem;background:var(--bg2);border:.5px solid var(--border-light);border-radius:8px}
+.signal-icon{width:28px;height:28px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0}
+.si-green{background:rgba(0,201,167,.1)}
+.si-amber{background:rgba(245,158,11,.1)}
+.signal-text{font-size:12px;color:var(--muted);line-height:1.5}
+.signal-text strong{color:var(--text);display:block;margin-bottom:2px;font-size:12px}
+
+/* ---- FINAL SUMMARY ---- */
+.launch-summary{background:linear-gradient(135deg,rgba(33,150,243,.08),rgba(0,201,167,.05));border:.5px solid rgba(33,150,243,.2);border-radius:var(--radius);padding:2rem;display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
+.ls-col{}
+.ls-col-title{font-family:'DM Mono',monospace;font-size:9px;color:var(--blue);letter-spacing:3px;text-transform:uppercase;margin-bottom:.875rem;padding-bottom:.75rem;border-bottom:.5px solid var(--border)}
+.ls-items{display:flex;flex-direction:column;gap:.5rem}
+.ls-item{font-size:12px;color:var(--muted);display:flex;align-items:flex-start;gap:.5rem;line-height:1.5}
+.ls-item::before{content:'✓';color:var(--green);font-size:11px;flex-shrink:0;margin-top:1px}
+.ls-item strong{color:var(--text)}
+
+@media(max-width:768px){
+  .summary-3,.decisions-grid,.timeline-grid,.convos-grid,.team-grid,.gap-grid,.launch-summary{grid-template-columns:1fr}
+  .pilot-flow{flex-direction:column}
+  .pilot-step{border-right:none;border-bottom:.5px solid var(--border)}
+  .pilot-step:last-child{border-bottom:none}
+}
+</style>
+
+<section id="lanzamiento" class="launch-section">
+<div class="container">
+
+  <!-- HEADER -->
+  <div class="sec-header">
+    <div class="sec-eyebrow">07 · Plan de Lanzamiento</div>
+    <h2 class="sec-title">¿Cómo lo echamos<br>a andar?</h2>
+    <p class="sec-desc">No el año 5. Los próximos 180 días. Sin humo, sin rodeos — las decisiones reales, las personas correctas y la secuencia que hace que el proyecto exista.</p>
+  </div>
+
+  <!-- DECISION BANNER -->
+  <div class="decision-banner">
+    <div class="decision-banner-icon">⚡</div>
+    <div class="decision-banner-text">
+      <strong>La pregunta que lo decide todo</strong>
+      <p>Los activos existen. El mercado existe. La ventana política está abierta. Lo que falta es responder cuatro preguntas con nombres, fechas y pesos: ¿Quién lidera? ¿Quién paga los primeros 6 meses? ¿Cuál es la primera victoria concreta? ¿En qué orden se mueven las conversaciones clave?</p>
+    </div>
+  </div>
+
+  <!-- 3-COL CONDENSED SUMMARY -->
+  <div class="summary-3">
+    <div class="s3-card">
+      <div class="s3-label">Lo que ya existe</div>
+      <div class="s3-title">Capital real que no hay que construir</div>
+      <div class="s3-items">
+        <div class="s3-item"><strong>Plataforma tecnológica</strong> operativa y adaptable</div>
+        <div class="s3-item"><strong>Comunidad activa</strong> de emprendedores LATAM</div>
+        <div class="s3-item"><strong>Red de evaluadores</strong> y mentores disponible</div>
+        <div class="s3-item"><strong>Credibilidad institucional</strong> con Estado y ecosistema</div>
+        <div class="s3-item"><strong>ValpoEmprende</strong> como experiencia territorial real</div>
+      </div>
+    </div>
+    <div class="s3-card">
+      <div class="s3-label">Lo que falta construir</div>
+      <div class="s3-title">Brechas reales que resolver</div>
+      <div class="s3-items">
+        <div class="s3-item"><strong>Director/a GovTech</strong> — el cuello de botella más crítico</div>
+        <div class="s3-item"><strong>Expertise GovTech específico</strong> — contratación pública, política territorial</div>
+        <div class="s3-item"><strong>Relaciones en las gobernaciones</strong> objetivo con nombre y apellido</div>
+        <div class="s3-item"><strong>Capital semilla</strong> para el gap de 4-8 meses antes del primer contrato</div>
+        <div class="s3-item"><strong>Primer piloto demostrable</strong> en 90 días</div>
+      </div>
+    </div>
+    <div class="s3-card">
+      <div class="s3-label">El riesgo principal</div>
+      <div class="s3-title">Lo que mata proyectos como este</div>
+      <div class="s3-items">
+        <div class="s3-item">Persona equivocada liderando el primer año</div>
+        <div class="s3-item">Intentar construir todo simultáneamente</div>
+        <div class="s3-item">Lanzar sin evidencia concreta que mostrar</div>
+        <div class="s3-item">Depender de un solo Gobierno Regional</div>
+        <div class="s3-item">Confundir convenios de voluntad con contratos reales</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FASE 0 TITLE -->
+  <div class="phase0-title-block">
+    <div class="phase0-badge">Fase 0 · Semanas 1–8</div>
+    <h2 class="sec-title" style="margin-bottom:.5rem">Cuatro decisiones.<br>En ese orden.</h2>
+    <p class="sec-desc" style="margin:0 auto;text-align:center">Antes de hablar con nadie externo, Socialab toma estas cuatro decisiones internamente. Sin estas, todo lo demás es conversación sin base.</p>
+  </div>
+
+  <!-- 4 DECISIONS -->
+  <div class="decisions-grid">
+    <div class="decision-card critical">
+      <div class="dc-num">DECISIÓN 01 · SEMANA 1-2</div>
+      <div class="dc-title">Directorio aprueba y asigna</div>
+      <div class="dc-desc">El Directorio toma una decisión real — no una aprobación de presentación. Define quién lidera internamente con al menos 50% de dedicación, cuánto capital propio se asigna como semilla (USD 60K–120K), y qué activos de Socialab se transfieren a GovTech sin costo adicional.</div>
+      <div class="dc-action amber">→ Output: resolución interna + presupuesto semilla comprometido</div>
+    </div>
+    <div class="decision-card people">
+      <div class="dc-num">DECISIÓN 02 · SEMANA 2-6</div>
+      <div class="dc-title">Director/a GovTech identificado</div>
+      <div class="dc-desc">El perfil más difícil de encontrar en Chile: credibilidad en el Estado + comprensión del ecosistema emprendedor + red en territorios piloto. Si no existe el perfil completo, se estructura un rol híbrido (seniority externo part-time + ejecución interna) antes que comprometer la calidad.</div>
+      <div class="dc-action green">→ Output: persona identificada o estructura híbrida definida</div>
+    </div>
+    <div class="decision-card action">
+      <div class="dc-num">DECISIÓN 03 · SEMANA 3-4</div>
+      <div class="dc-title">Primer desafío piloto seleccionado</div>
+      <div class="dc-desc">No el más urgente políticamente. El más demostrable en 60 días. Criterio: existe solución en el ecosistema, hay un indicador de resultado claro, puede pilotarse con un grupo acotado, y no requiere licitación pública para implementarse. Este piloto es la inversión más inteligente de los primeros USD 20K–30K.</div>
+      <div class="dc-action blue">→ Output: desafío elegido + organismo público contraparte comprometido</div>
+    </div>
+    <div class="decision-card money">
+      <div class="dc-num">DECISIÓN 04 · SEMANA 1-4</div>
+      <div class="dc-title">Estrategia del gap financiero</div>
+      <div class="dc-desc">Entre la decisión de lanzar y el primer contrato regional hay 4 a 8 meses de proceso de compra pública. Ese gap se financia con: capital propio de Socialab + 2 patrocinadores fundadores tempranos + postulación BID Lab (iniciar en semana 1, no esperar). Presupuesto total del gap: USD 120K–200K.</div>
+      <div class="dc-action purple">→ Output: plan financiero primeros 6 meses con fuentes confirmadas</div>
+    </div>
+  </div>
+
+  <!-- 90-DAY TIMELINE -->
+  <div class="timeline-wrap">
+    <div class="timeline-header">
+      <h3>Los primeros 90 días — semana a semana</h3>
+      <div class="timeline-legend">
+        <div class="tl-legend-item"><div class="tl-dot" style="background:var(--amber)"></div>Interno Socialab</div>
+        <div class="tl-legend-item"><div class="tl-dot" style="background:var(--blue)"></div>Conversaciones externas</div>
+        <div class="tl-legend-item"><div class="tl-dot" style="background:var(--green)"></div>Hitos de cierre</div>
+      </div>
+    </div>
+    <div class="timeline-grid">
+      <div class="tl-phase phase-a">
+        <div class="tl-phase-header">
+          <div class="tl-phase-dot">A</div>
+          <div>
+            <div class="tl-phase-label">Semanas 1 a 4</div>
+            <div class="tl-phase-title">Decisión interna y arranque</div>
+          </div>
+        </div>
+        <div class="tl-tasks">
+          <div class="tl-task"><div class="tl-task-dot task-amber"></div><div><strong>S1:</strong> Reunión Directorio — decisión, presupuesto semilla, liderazgo provisional</div></div>
+          <div class="tl-task"><div class="tl-task-dot task-amber"></div><div><strong>S1:</strong> Mapeo de comunidad Socialab para identificar startups GovTech potenciales</div></div>
+          <div class="tl-task"><div class="tl-task-dot task-blue"></div><div><strong>S2:</strong> Postulación BID Lab cooperación técnica (no esperar)</div></div>
+          <div class="tl-task"><div class="tl-task-dot task-blue"></div><div><strong>S3:</strong> Primera reunión Corfo — nivel técnico, propuesta de co-diseño</div></div>
+          <div class="tl-task"><div class="tl-task-dot task-blue"></div><div><strong>S3:</strong> Primera llamada Gobernación Valparaíso — exploración de desafío concreto</div></div>
+          <div class="tl-task"><div class="tl-task-dot task-amber"></div><div><strong>S4:</strong> Inicio proceso de selección Director/a GovTech</div></div>
+        </div>
+      </div>
+      <div class="tl-phase phase-b">
+        <div class="tl-phase-header">
+          <div class="tl-phase-dot">B</div>
+          <div>
+            <div class="tl-phase-label">Semanas 5 a 8</div>
+            <div class="tl-phase-title">Conversaciones y piloto</div>
+          </div>
+        </div>
+        <div class="tl-tasks">
+          <div class="tl-task"><div class="tl-task-dot task-blue"></div><div><strong>S5:</strong> Segunda reunión Valparaíso — propuesta concreta de piloto de demostración</div></div>
+          <div class="tl-task"><div class="tl-task-dot task-blue"></div><div><strong>S5:</strong> Contacto PUCV — explorar alianza de evaluación académica</div></div>
+          <div class="tl-task"><div class="tl-task-dot task-blue"></div><div><strong>S6:</strong> Reuniones 2 empresas privadas Valparaíso (EPSA + telco)</div></div>
+          <div class="tl-task"><div class="tl-task-dot task-blue"></div><div><strong>S6:</strong> Primera visita exploratoria Gobernación Antofagasta</div></div>
+          <div class="tl-task"><div class="tl-task-dot task-green"></div><div><strong>S7:</strong> Carta de intención o acuerdo de colaboración Valparaíso firmado</div></div>
+          <div class="tl-task"><div class="tl-task-dot task-green"></div><div><strong>S8:</strong> Definición desafío + solución piloto + inicio de diseño del piloto</div></div>
+        </div>
+      </div>
+      <div class="tl-phase phase-c">
+        <div class="tl-phase-header">
+          <div class="tl-phase-dot">C</div>
+          <div>
+            <div class="tl-phase-label">Semanas 9 a 13</div>
+            <div class="tl-phase-title">Piloto activo + cierres</div>
+          </div>
+        </div>
+        <div class="tl-tasks">
+          <div class="tl-task"><div class="tl-task-dot task-green"></div><div><strong>S9:</strong> Inicio del piloto de demostración con funcionario público real</div></div>
+          <div class="tl-task"><div class="tl-task-dot task-blue"></div><div><strong>S10:</strong> Segunda reunión Corfo con datos de demanda regional concretos</div></div>
+          <div class="tl-task"><div class="tl-task-dot task-green"></div><div><strong>S11:</strong> Contratación Director/a GovTech</div></div>
+          <div class="tl-task"><div class="tl-task-dot task-green"></div><div><strong>S12:</strong> Cierre de primeros 2 patrocinios corporativos</div></div>
+          <div class="tl-task"><div class="tl-task-dot task-green"></div><div><strong>S13:</strong> Propuesta formal a Corfo para co-diseño de instrumento</div></div>
+          <div class="tl-task"><div class="tl-task-dot task-blue"></div><div><strong>S13:</strong> Inicio proceso convenio formal Gobierno Regional</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4 CONVERSATIONS -->
+  <div class="convos-section">
+    <div class="convos-header">
+      <h3>Las 4 conversaciones que ocurren en paralelo</h3>
+      <span>Semanas 1–8 · Simultáneamente, no en serie</span>
+    </div>
+    <div class="convos-grid">
+      <div class="convo-card">
+        <div class="convo-who">
+          <div class="convo-icon" style="background:rgba(33,150,243,.1)">🏗️</div>
+          <div class="convo-who-text">
+            <div class="convo-who-label">Conversación 01</div>
+            <div class="convo-who-name">Corfo</div>
+          </div>
+        </div>
+        <div class="convo-ask">
+          <strong>No se llega a pedir. Se llega a co-diseñar.</strong>
+          "Queremos co-diseñar un instrumento que no existe en tu portafolio: un Fondo de Pilotos GovTech. Nosotros ponemos la infraestructura de ecosistema. Tú pones el financiamiento y la legitimidad. El producto conjunto es el primer programa nacional de pilotos entre startups y organismos públicos."
+        </div>
+        <div class="convo-result">Acuerdo de co-diseño en 90 días · Interlocutor: Gerente de Capacidades Tecnológicas</div>
+      </div>
+      <div class="convo-card">
+        <div class="convo-who">
+          <div class="convo-icon" style="background:rgba(0,201,167,.1)">🏛️</div>
+          <div class="convo-who-text">
+            <div class="convo-who-label">Conversación 02</div>
+            <div class="convo-who-name">Gobierno Regional Valparaíso</div>
+          </div>
+        </div>
+        <div class="convo-ask">
+          <strong>No el ecosistema. Un problema concreto.</strong>
+          "Tenemos metodología para convertir uno de sus problemas más urgentes en un piloto en 90 días. Queremos hacer el primero gratis para demostrarle qué es esto. Si funciona, conversamos de una relación más estructurada." — El piloto gratuito cuesta USD 20K–30K y es la inversión más inteligente del año.
+        </div>
+        <div class="convo-result">Carta de intención en semana 7 · Convenio formal en semana 20</div>
+      </div>
+      <div class="convo-card">
+        <div class="convo-who">
+          <div class="convo-icon" style="background:rgba(245,158,11,.1)">🏢</div>
+          <div class="convo-who-text">
+            <div class="convo-who-label">Conversación 03</div>
+            <div class="convo-who-name">3–5 empresas privadas territoriales</div>
+          </div>
+        </div>
+        <div class="convo-ask">
+          <strong>No se vende visibilidad. Se vende acceso estratégico.</strong>
+          Las empresas con presión de RSE o innovación compran: acceso anticipado al flujo de desafíos, conexión con startups del ecosistema, y posicionamiento territorial real con evidencia. Targets: EPSA (Valparaíso), un proveedor minero mediano (Antofagasta). No BHP en primera ronda — ciclo demasiado largo.
+        </div>
+        <div class="convo-result">2 patrocinios fundadores cerrados en semana 12 · USD 40–80K combinados</div>
+      </div>
+      <div class="convo-card">
+        <div class="convo-who">
+          <div class="convo-icon" style="background:rgba(168,85,247,.1)">🎓</div>
+          <div class="convo-who-text">
+            <div class="convo-who-label">Conversación 04</div>
+            <div class="convo-who-name">PUCV + UCN</div>
+          </div>
+        </div>
+        <div class="convo-ask">
+          <strong>No alianza genérica. Evaluación del primer piloto.</strong>
+          No se busca un MOU amplio. Se busca un acuerdo específico: que un centro de investigación universitaria evalúe el primer piloto con metodología académica. Costo mínimo, credibilidad máxima. Una evaluación universitaria de un piloto vale más que cualquier consultora externa para las audiencias institucionales.
+        </div>
+        <div class="convo-result">Acuerdo de evaluación firmado en semana 10 · 1 piloto por universidad</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PILOT DEMO FLOW -->
+  <div class="pilot-section">
+    <div class="pilot-header">
+      <div class="pilot-header-left">
+        <h3>El piloto de demostración — el activo más valioso del año 1</h3>
+        <p>No el más urgente. El más demostrable. El criterio es: ¿hay solución disponible + indicador claro + contraparte dispuesta?</p>
+      </div>
+      <div class="pilot-header-right">
+        <div class="pilot-cost">USD 20–30K</div>
+        <div class="pilot-cost-label">inversión total · retorno estratégico incalculable</div>
+      </div>
+    </div>
+    <div class="pilot-flow">
+      <div class="pilot-step">
+        <div class="pilot-step-n">PASO 01</div>
+        <div class="pilot-step-title">Selección del desafío</div>
+        <div class="pilot-step-desc">Problema público real con indicador medible y contraparte comprometida</div>
+        <div class="pilot-step-time">Días 1–10</div>
+      </div>
+      <div class="pilot-step">
+        <div class="pilot-step-n">PASO 02</div>
+        <div class="pilot-step-title">Matching de solución</div>
+        <div class="pilot-step-desc">Buscar en ecosistema Socialab + mercado LATAM. No crear si ya existe.</div>
+        <div class="pilot-step-time">Días 10–20</div>
+      </div>
+      <div class="pilot-step">
+        <div class="pilot-step-n">PASO 03</div>
+        <div class="pilot-step-title">Diseño del piloto</div>
+        <div class="pilot-step-desc">Hipótesis, métricas, roles, hitos y resolución de obstáculos regulatorios</div>
+        <div class="pilot-step-time">Días 20–35</div>
+      </div>
+      <div class="pilot-step">
+        <div class="pilot-step-n">PASO 04</div>
+        <div class="pilot-step-title">Ejecución 60 días</div>
+        <div class="pilot-step-desc">Con funcionario real, usuarios reales, seguimiento semanal y ajustes</div>
+        <div class="pilot-step-time">Días 35–95</div>
+      </div>
+      <div class="pilot-step">
+        <div class="pilot-step-n">PASO 05</div>
+        <div class="pilot-step-title">Evaluación y dossier</div>
+        <div class="pilot-step-desc">Documento público de evidencia. Lecciones aprendidas. Recomendación.</div>
+        <div class="pilot-step-time">Días 95–120</div>
+      </div>
+      <div class="pilot-step">
+        <div class="pilot-step-n">PASO 06</div>
+        <div class="pilot-step-title">Presentación pública</div>
+        <div class="pilot-step-desc">Al Gobernador, a las empresas, a Corfo. Con datos. Este es el lanzamiento real.</div>
+        <div class="pilot-step-time">Día 120+</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TEAM MVT -->
+  <div class="team-section">
+    <div class="timeline-header">
+      <h3>Equipo mínimo viable — primeros 6 meses</h3>
+      <div style="font-size:12px;color:var(--muted);font-family:'DM Mono',monospace">Núcleo de 4 personas · presupuesto mensual ~USD 12–18K</div>
+    </div>
+    <div class="team-grid">
+      <div class="team-card critical-hire">
+        <div class="team-badge tb-critical">Contratación crítica</div>
+        <h4>Director/a Socialab GovTech</h4>
+        <p>Credibilidad estatal + comprensión de ecosistema emprendedor + red en territorios piloto. Perfil en ex funcionarios de GORE o CORFO regional. No existe completo — puede estructurarse como rol híbrido.</p>
+        <div class="team-card-cost">CLP 4.5M–7M / mes</div>
+      </div>
+      <div class="team-card">
+        <div class="team-badge tb-hire">Contratación nueva</div>
+        <h4>Coordinador/a de Territorios</h4>
+        <p>Base en Valparaíso o disponibilidad real de estar ahí 2 semanas/mes. Gestión de proyectos + experiencia municipal o con servicios públicos. Construye las relaciones de confianza que ningún documento puede construir.</p>
+        <div class="team-card-cost">CLP 2.2M–3.2M / mes</div>
+      </div>
+      <div class="team-card">
+        <div class="team-badge tb-internal">Reasignación interna</div>
+        <h4>Coordinador/a de Ecosistema</h4>
+        <p>Persona ya en Socialab con 50% de dedicación a GovTech. Activa la comunidad existente, identifica startups con soluciones adaptables al sector público, gestiona la comunicación del ecosistema.</p>
+        <div class="team-card-cost">Sin costo adicional</div>
+      </div>
+      <div class="team-card">
+        <div class="team-badge tb-external">Freelance / Part-time</div>
+        <h4>Responsable de Plataforma</h4>
+        <p>Adapta la plataforma Socialab con módulos GovTech básicos. Gestiona el Observatorio v1 (puede ser una base de datos bien estructurada inicialmente). Produce los primeros reportes de inteligencia territorial.</p>
+        <div class="team-card-cost">USD 1.5K–3K / mes</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FINANCING GAP -->
+  <div class="gap-section">
+    <div class="timeline-header">
+      <h3>Financiando el gap de arranque</h3>
+      <div style="font-size:12px;color:var(--muted);font-family:'DM Mono',monospace">Primeros 6 meses · USD 120K–200K total</div>
+    </div>
+    <div class="gap-grid">
+      <div class="gap-sources">
+        <div class="gap-sources-header">
+          Fuentes del capital semilla
+          <div class="gap-total">Total: USD 120–200K</div>
+        </div>
+        <div class="gap-row">
+          <div class="gap-row-n">01</div>
+          <div class="gap-row-name">Capital propio Socialab <small>Primera señal de compromiso real · Sin esto nadie más pone plata</small></div>
+          <div class="gap-row-track"><div class="gap-row-fill" style="width:40%;background:var(--blue)"></div></div>
+          <div class="gap-row-amt">USD 40–80K</div>
+        </div>
+        <div class="gap-row">
+          <div class="gap-row-n">02</div>
+          <div class="gap-row-name">Patrocinadores fundadores <small>2–3 empresas · propuesta de Patrocinador Fundador con visibilidad y co-diseño</small></div>
+          <div class="gap-row-track"><div class="gap-row-fill" style="width:35%;background:var(--amber)"></div></div>
+          <div class="gap-row-amt">USD 40–80K</div>
+        </div>
+        <div class="gap-row">
+          <div class="gap-row-n">03</div>
+          <div class="gap-row-name">BID Lab cooperación técnica <small>Postular semana 1 · Proceso 3–6 meses · No reembolsable</small></div>
+          <div class="gap-row-track"><div class="gap-row-fill" style="width:25%;background:var(--green)"></div></div>
+          <div class="gap-row-amt">USD 30–60K</div>
+        </div>
+        <div class="gap-row">
+          <div class="gap-row-n">04</div>
+          <div class="gap-row-name">Corfo instrumento existente <small>Línea de diseño e innovación · Proceso 60–90 días · No esperar el instrumento co-diseñado</small></div>
+          <div class="gap-row-track"><div class="gap-row-fill" style="width:30%;background:var(--muted)"></div></div>
+          <div class="gap-row-amt">USD 40–80K</div>
+        </div>
+      </div>
+      <div class="gap-signals">
+        <h4>5 señales de que el proyecto va bien</h4>
+        <div class="signals-list">
+          <div class="signal-item">
+            <div class="signal-icon si-green">🟢</div>
+            <div class="signal-text"><strong>Señal 1 — Día 30</strong> Un funcionario de la GORE está esperando activamente la próxima propuesta de Socialab.</div>
+          </div>
+          <div class="signal-item">
+            <div class="signal-icon si-green">🟢</div>
+            <div class="signal-text"><strong>Señal 2 — Día 45</strong> Corfo ha llevado la propuesta internamente a al menos una reunión de equipo.</div>
+          </div>
+          <div class="signal-item">
+            <div class="signal-icon si-green">🟢</div>
+            <div class="signal-text"><strong>Señal 3 — Día 60</strong> Al menos 5 startups de la comunidad expresaron interés activo en GovTech (no cortesía).</div>
+          </div>
+          <div class="signal-item">
+            <div class="signal-icon si-amber">🟡</div>
+            <div class="signal-text"><strong>Señal 4 — Día 75</strong> Al menos una empresa ha hecho preguntas de due diligence sobre los términos del patrocinio.</div>
+          </div>
+          <div class="signal-item">
+            <div class="signal-icon si-green">🟢</div>
+            <div class="signal-text"><strong>Señal 5 — Día 90</strong> El piloto está en ejecución con un funcionario público real actuando como contraparte activa.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FINAL SUMMARY -->
+  <div class="sec-eyebrow" style="text-align:center;margin-bottom:1.5rem">La respuesta directa</div>
+  <div style="text-align:center;margin-bottom:2rem">
+    <h2 class="sec-title" style="margin-bottom:.5rem">En este orden, sin saltarse pasos.</h2>
+    <p class="sec-desc" style="margin:0 auto;text-align:center">No el año 5. Estos seis pasos, en secuencia, con los recursos que ya existen.</p>
+  </div>
+  <div class="launch-summary">
+    <div class="ls-col">
+      <div class="ls-col-title">Primero · Semanas 1–2</div>
+      <div class="ls-items">
+        <div class="ls-item"><strong>Directorio decide</strong> con asignación real de recursos</div>
+        <div class="ls-item"><strong>Liderazgo provisional</strong> designado ese mismo día</div>
+        <div class="ls-item"><strong>USD 60–120K</strong> capital semilla comprometido</div>
+        <div class="ls-item"><strong>Postular a BID Lab</strong> en semana 1 — no esperar</div>
+      </div>
+    </div>
+    <div class="ls-col">
+      <div class="ls-col-title">Segundo · Semanas 3–8</div>
+      <div class="ls-items">
+        <div class="ls-item"><strong>4 conversaciones en paralelo</strong> — Corfo, Valparaíso, empresas, universidades</div>
+        <div class="ls-item"><strong>Director/a GovTech</strong> identificado y proceso iniciado</div>
+        <div class="ls-item"><strong>Primer desafío piloto</strong> seleccionado con contraparte comprometida</div>
+        <div class="ls-item"><strong>2 patrocinios fundadores</strong> en negociación activa</div>
+      </div>
+    </div>
+    <div class="ls-col">
+      <div class="ls-col-title">Tercero · Semanas 9–24</div>
+      <div class="ls-items">
+        <div class="ls-item"><strong>Piloto ejecutado</strong> con evidencia documentada</div>
+        <div class="ls-item"><strong>Convenio regional</strong> firmado con 1 GORE</div>
+        <div class="ls-item"><strong>Lanzamiento público</strong> solo con evidencia concreta — no antes</div>
+        <div class="ls-item"><strong>Proceso de licitación</strong> del primer contrato formal iniciado</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+</section>
+
+<!-- CTA -->
+<section id="contacto" class="cta-section">
+  <div class="cta-inner">
+    <div class="cta-badge">Chile → LATAM · 2025</div>
+    <h2 class="cta-title">El mercado más grande que nadie estructuró todavía.</h2>
+    <p class="cta-desc">Socialab GovTech no es el próximo programa notable. Es la infraestructura permanente sobre la que se construirán los próximos veinte años de innovación pública chilena.</p>
+    <div class="cta-actions">
+      <a href="mailto:govtech@socialab.com" class="btn-primary">
+        <svg width="14" height="14" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 8l12 10L28 8"/><rect x="4" y="8" width="24" height="16" rx="2"/></svg>
+        Conversar sobre el proyecto
+      </a>
+      <a href="#por-que" class="btn-ghost">Volver al inicio</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<div class="footer-strip">
+  <div class="footer-left">
+    <strong>Socialab GovTech</strong> · Infraestructura Nacional para la Innovación Pública Territorial · Documento Estratégico v1.0 · 2025
+  </div>
+  <div class="footer-right">CONFIDENCIAL · USO ESTRATÉGICO</div>
+</div>
+
+<script>
+function showTab(id) {
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + id).classList.add('active');
+  event.target.classList.add('active');
+}
+
+// Animate bars on scroll
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.querySelectorAll('.fp-bar-fill').forEach(bar => {
+        bar.style.width = bar.style.width;
+      });
+    }
+  });
+}, {threshold: 0.3});
+
+document.querySelectorAll('.finance-phase').forEach(el => observer.observe(el));
+
+// Smooth active state for nav
+const sections = document.querySelectorAll('section[id]');
+window.addEventListener('scroll', () => {
+  let current = '';
+  sections.forEach(section => {
+    const sectionTop = section.offsetTop;
+    if (pageYOffset >= sectionTop - 100) {
+      current = section.getAttribute('id');
+    }
+  });
+  document.querySelectorAll('.nav-links a').forEach(a => {
+    a.style.color = '';
+    if (a.getAttribute('href') === '#' + current) {
+      a.style.color = 'var(--text)';
+    }
+  });
+});
+</script>
+
+</body>
+</html>
